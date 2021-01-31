@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+
+class LoginPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Login Page"),
+      ),
+      body: Container(
+          width: double.infinity,
+          height: double.infinity,
+      ),
+    );
+  }
+}
