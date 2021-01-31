@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
-import 'power_calculator.dart';
+import 'result_page.dart';
 import 'my_page.dart';
 import 'input_page.dart';
 
@@ -13,12 +13,12 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/input',
       routes: {
-        '/': (context) => InputPage(),
-        '/second': (context) => PowerCalculator(),
-        '/third': (context) => MyPage(),
-        '/last': (context) => LoginPage(),
+        '/input': (context) => InputPage(),
+        //'/result': (context) => ResultPage(),
+        '/mypage': (context) => MyPage(),
+        '/login': (context) => LoginPage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

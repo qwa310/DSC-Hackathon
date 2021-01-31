@@ -14,7 +14,7 @@ class MyPage extends StatelessWidget {
               child: RaisedButton(
                 child: Text('Next'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/last');
+                  Navigator.pushNamed(context, '/login');
                 },
               ))),
     );
