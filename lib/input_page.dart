@@ -8,14 +8,14 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   final _formKey = GlobalKey<FormState>();
-  final _Wcontroller = TextEditingController();
-  final _Hcontroller = TextEditingController();
+  final _wController = TextEditingController();
+  final _hController = TextEditingController();
 
   @override
   void dispose(){
     //화면 종료 시 컨트롤러 종료
-    _Wcontroller.dispose();
-    _Hcontroller.dispose();
+    _wController.dispose();
+    _hController.dispose();
     super.dispose();
   }
 
@@ -48,7 +48,7 @@ class _InputPageState extends State<InputPage> {
                     hintText: '소비 전력(W)',
                   ),
                   keyboardType: TextInputType.number,
-                  controller: _Wcontroller,
+                  controller: _wController,
                   validator: (value){
                     if(value.trim().isEmpty){
                       return '전자 제품 종류를 입력해주세요';
@@ -62,7 +62,7 @@ class _InputPageState extends State<InputPage> {
                     hintText: '하루 이용 시간(h)',
                   ),
                   keyboardType: TextInputType.number,
-                  controller: _Hcontroller,
+                  controller: _hController,
                   validator: (value){
                     if(value.trim().isEmpty){
                       return '하루 이용 시간을 입력해주세요';
@@ -83,8 +83,8 @@ class _InputPageState extends State<InputPage> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   ResultPage(
-                                    int.parse(_Wcontroller.text.trim()),
-                                    int.parse(_Hcontroller.text.trim()),
+                                    int.parse(_wController.text.trim()),
+                                    double.parse(_hController.text.trim()),
                                   ),
                             ),
                           );

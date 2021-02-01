@@ -17,7 +17,7 @@ class MainPage extends StatelessWidget {
       routes: {
         '/input': (context) => InputPage(),
         //'/result': (context) => ResultPage(),
-        '/mypage': (context) => MyPage(),
+        '/my_page': (context) => MyPage(),
         '/login': (context) => LoginPage(),
       },
       theme: ThemeData(

@@ -10,13 +10,7 @@ class MyPage extends StatelessWidget {
       body: Container(
           width: double.infinity,
           height: double.infinity,
-          child: Center(
-              child: RaisedButton(
-                child: Text('Next'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-              ))),
+          ),
     );
   }
 }
