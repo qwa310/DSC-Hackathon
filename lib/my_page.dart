@@ -14,9 +14,11 @@ class MyPage extends StatelessWidget {
               child: RaisedButton(
                 child: Text('Next'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/login');
+                  Navigator.pushNamed(context, '/input');
                 },
-              ))),
+              )
+          )
+      ),
     );
   }
 }

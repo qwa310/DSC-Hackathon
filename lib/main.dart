@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
-import 'result_page.dart';
 import 'my_page.dart';
 import 'input_page.dart';
+import 'chart_page.dart';
 
 void main() => runApp(MainPage());
 
@@ -13,12 +13,11 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/input',
+      initialRoute: '/login',
       routes: {
-        '/input': (context) => InputPage(),
-        //'/result': (context) => ResultPage(),
-        '/mypage': (context) => MyPage(),
         '/login': (context) => LoginPage(),
+        '/my_page': (context) => MyPage(),
+        '/input': (context) => InputPage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -1,6 +1,7 @@
 # power_rangers
 
-A new Flutter application.
+- Android : Flutter
+- Server/Database : Firebase
 
 ## Getting Started
 

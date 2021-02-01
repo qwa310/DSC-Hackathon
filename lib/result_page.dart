@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'chart_page.dart';
 
-class ResultPage extends StatelessWidget { //월간 전기 사용량 계산법: 소비전력(W) × 하루이용시간(h) × 30일 = ~ Wh
+class ResultPage extends StatelessWidget { //월간 전기 사용량 계산하는 class
   final int W; //소비전력(W)
-  final int h; //하루이용시간(h)
+  final double h; //하루이용시간(h)
   final int date = 30;
   double _cal;
+  var _result;
   ResultPage(this.W, this.h);
 
   @override
   Widget build(BuildContext context){
-    _cal = ((W * h * date) / 1000);
+    _cal = ((W * h * date) / 1000); //월간 전기 사용량 계산법: 소비전력(W) × 하루이용시간(h) × 30일
+    _result = double.parse(_cal.toStringAsFixed(1));
     return Scaffold(
       appBar: AppBar(
         title: Text('전기 소비량 및 전기세 계산 결과'),
@@ -27,10 +30,17 @@ class ResultPage extends StatelessWidget { //월간 전기 사용량 계산법: 
               style: TextStyle(fontSize: 40),
             ),
             RaisedButton(
-              child: Text('Next'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/mypage');
-              },
+                child: Text('Next'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChartPage(
+                        double.parse(_cal.toStringAsFixed(1).trim()),
+                      ),
+                    ),
+                  );
+                }
             ),
           ],
         ),
@@ -39,7 +49,7 @@ class ResultPage extends StatelessWidget { //월간 전기 사용량 계산법: 
   }
 
   String getResult(){
-    return '월간 전기 사용량 : ${_cal.toStringAsFixed(1)}Kw';
+    return '월간 전기 사용량 : ${_result}Kw';
   }
 
   String getState(){
