@@ -1,4 +1,4 @@
-package example.power_rangers
+package com.power_rangers.saver
 
 import io.flutter.embedding.android.FlutterActivity
 
