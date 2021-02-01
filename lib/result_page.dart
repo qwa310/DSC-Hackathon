@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'chart_page.dart';
 
 class ResultPage extends StatelessWidget { //월간 전기 사용량 계산하는 class
   final int W; //소비전력(W)
@@ -29,10 +30,17 @@ class ResultPage extends StatelessWidget { //월간 전기 사용량 계산하�
               style: TextStyle(fontSize: 40),
             ),
             RaisedButton(
-              child: Text('Next'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/login');
-              },
+                child: Text('Next'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChartPage(
+                        double.parse(_cal.toStringAsFixed(1).trim()),
+                      ),
+                    ),
+                  );
+                }
             ),
           ],
         ),
