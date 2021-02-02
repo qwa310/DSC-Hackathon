@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Text('제출'),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    //form 값 검증 시 처리
+                                    _createUser(user);
                                     Navigator.pushNamed(context, '/my_page');
                                   }
                                 },
@@ -137,5 +137,21 @@ class _LoginPageState extends State<LoginPage> {
             )
         )
     );
+  }
+
+  void _createUser(User user) {
+    auth.createUserWithEmailAndPassword(email: user.email, password: user.password)
+        .then((cred) => {
+          firestore
+            .collection('user')
+            .doc(cred.user.uid)
+            .set({
+              'uid': cred.user.uid,
+              'name': user.name,
+              'email': user.email,
+              'region': user.region
+            })
+            .catchError((e) => print("Failed to add user: $e"))
+        });
   }
 }
