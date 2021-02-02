@@ -104,6 +104,26 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void popupMsg(String msg){
+    showDialog(context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return AlertDialog(
+            content: SingleChildScrollView(
+              child: Text(msg),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('확인'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]
+        );},
+    );
+  }
+
   void _login(User user) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -112,10 +132,12 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInAnonymously();
     } catch (e) {
       if (e.code == 'user-not-found') {
+        popupMsg('이메일 혹은 비밀번호를 잘못 입력하였습니다.');
         print('==========================================');
         print('No user found for that email.');
         print('==========================================');
       } else if (e.code == 'wrong-password') {
+        popupMsg('잘못된 비밀번호입니다.');
         print('==========================================');
         print('Wrong password provided for that user.');
         print('==========================================');

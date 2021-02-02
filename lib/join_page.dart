@@ -150,8 +150,8 @@ class _JoinPageState extends State<JoinPage> {
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
                                     _createUser(user);
-
                                   }
+                                  Navigator.pushNamed(context, '/login');
                                 },
                               ))
                         ]
@@ -159,6 +159,26 @@ class _JoinPageState extends State<JoinPage> {
                 )
             )
         )
+    );
+  }
+
+  void popupMsg(String msg){
+    showDialog(context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return AlertDialog(
+            content: SingleChildScrollView(
+              child: Text(msg),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('확인'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]
+        );},
     );
   }
 
@@ -180,17 +200,19 @@ class _JoinPageState extends State<JoinPage> {
       }
       );
       await FirebaseAuth.instance.signInAnonymously();
-      Navigator.pushNamed(context, '/my_page');
     } catch (e) {
       if (e.code == 'email-already-in-use') {
+        popupMsg('이미 가입된 이메일 입니다.');
         print('==========================================');
         print('The account already exists for that email.');
         print('==========================================');
       } else if (e.code == 'invalid-email') {
+        popupMsg('유효하지 않은 이메일 입니다.');
         print('==========================================');
         print('The email address is badly formatted.');
         print('==========================================');
       } else if (e.code == 'weak-password') {
+        popupMsg('비밀번호는 최소 6자리 이상입니다.');
         print('==========================================');
         print('The password provided is too weak.');
         print('==========================================');
