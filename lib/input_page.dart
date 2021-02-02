@@ -127,4 +127,17 @@ class _InputPageState extends State<InputPage> {
     var format = 'yyyy-MM-dd';
     return DateFormat(format).format(now);
   }
+
+  void _addElectronics(UserElectronics userElectronics) {
+    String date = _getCurrentDate();
+    firestore
+        .collection('user')
+        .doc(userElectronics.uid)
+        .collection(userElectronics.device)
+        .doc(date)
+        .set({
+      'UsageTime': userElectronics.time,
+      'createdDate': date
+    });
+  }
 }
