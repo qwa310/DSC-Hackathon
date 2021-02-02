@@ -149,9 +149,10 @@ class _JoinPageState extends State<JoinPage> {
                                 child: Text('제출'),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    _createUser(user);
+                                    if (_createUser(user) == 1){
+                                      Navigator.pushNamed(context, '/login');
+                                    }
                                   }
-                                  Navigator.pushNamed(context, '/login');
                                 },
                               ))
                         ]
@@ -162,7 +163,7 @@ class _JoinPageState extends State<JoinPage> {
     );
   }
 
-  void popupMsg(String msg){
+  void popupMsg(String msg) {
     showDialog(context: context,
       barrierDismissible: false,
       builder: (BuildContext context){
@@ -182,7 +183,8 @@ class _JoinPageState extends State<JoinPage> {
     );
   }
 
-  void  _createUser(User user) async {
+
+  Future<int> _createUser(User user) async {
     try {
       await auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password)
@@ -206,18 +208,22 @@ class _JoinPageState extends State<JoinPage> {
         print('==========================================');
         print('The account already exists for that email.');
         print('==========================================');
+        return 0;
       } else if (e.code == 'invalid-email') {
         popupMsg('유효하지 않은 이메일 입니다.');
         print('==========================================');
         print('The email address is badly formatted.');
         print('==========================================');
+        return 0;
       } else if (e.code == 'weak-password') {
         popupMsg('비밀번호는 최소 6자리 이상입니다.');
         print('==========================================');
         print('The password provided is too weak.');
         print('==========================================');
+        return 0;
       } else {
         print(e);
+        return 1;
       }
     }
   }
