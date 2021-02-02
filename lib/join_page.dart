@@ -149,8 +149,9 @@ class _JoinPageState extends State<JoinPage> {
                                 child: Text('제출'),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    _createUser(user);
-
+                                    if (_createUser(user) == 1){
+                                      Navigator.pushNamed(context, '/login');
+                                    }
                                   }
                                 },
                               ))
@@ -162,7 +163,28 @@ class _JoinPageState extends State<JoinPage> {
     );
   }
 
-  void  _createUser(User user) async {
+  void popupMsg(String msg) {
+    showDialog(context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return AlertDialog(
+            content: SingleChildScrollView(
+              child: Text(msg),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('확인'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]
+        );},
+    );
+  }
+
+
+  Future<int> _createUser(User user) async {
     try {
       await auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password)
@@ -180,22 +202,28 @@ class _JoinPageState extends State<JoinPage> {
       }
       );
       await FirebaseAuth.instance.signInAnonymously();
-      Navigator.pushNamed(context, '/my_page');
     } catch (e) {
       if (e.code == 'email-already-in-use') {
+        popupMsg('이미 가입된 이메일 입니다.');
         print('==========================================');
         print('The account already exists for that email.');
         print('==========================================');
+        return 0;
       } else if (e.code == 'invalid-email') {
+        popupMsg('유효하지 않은 이메일 입니다.');
         print('==========================================');
         print('The email address is badly formatted.');
         print('==========================================');
+        return 0;
       } else if (e.code == 'weak-password') {
+        popupMsg('비밀번호는 최소 6자리 이상입니다.');
         print('==========================================');
         print('The password provided is too weak.');
         print('==========================================');
+        return 0;
       } else {
         print(e);
+        return 1;
       }
     }
   }
