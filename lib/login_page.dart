@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:power_rangers/my_page.dart';
 import 'result_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class User {
   String email;
   String password;
-  String name;
-  String region;
 }
 
 class LoginPage extends StatefulWidget {
@@ -22,9 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _pwController = TextEditingController();
-  final _nameController = TextEditingController();
-  final _regionController = TextEditingController();
-  final firestore = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
 
   @override
@@ -32,8 +26,6 @@ class _LoginPageState extends State<LoginPage> {
     //화면 종료 시 컨트롤러 종료
     _emailController.dispose();
     _pwController.dispose();
-    _nameController.dispose();
-    _regionController.dispose();
     super.dispose();
   }
 
@@ -42,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     final user = User();
     return Scaffold(
         appBar: AppBar(
-          title: Text('Sign Up'),
+          title: Text('Login'),
         ),
         body: Center(
             child: Container(
@@ -63,8 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                                 return '다시 입력해 주세요';
                               } else {
                                 user.email = value;
-                              }
-                              return null;
+                              } return null;
                             },
                           ),
                           SizedBox(
@@ -82,78 +73,29 @@ class _LoginPageState extends State<LoginPage> {
                                 return '다시 입력해 주세요';
                               } else {
                                 user.password = value;
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'password 확인',
-                            ),
-                            keyboardType: TextInputType.text,
-                            // controller: _pwController,
-                            validator: (value) {
-                              if (value.trim().isEmpty) {
-                                return '다시 입력해 주세요';
-                              } else if (value.trim() != user.password) {
-                                return '일치하지 않습니다';
-                              }return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'name',
-                            ),
-                            keyboardType: TextInputType.text,
-                            controller: _nameController,
-                            validator: (value) {
-                              if (value.trim().isEmpty) {
-                                return '다시 입력해 주세요';
-                              } else {
-                                user.name = value;
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'region',
-                            ),
-                            keyboardType: TextInputType.text,
-                            controller: _regionController,
-                            validator: (value) {
-                              if (value.trim().isEmpty) {
-                                return '다시 입력해 주세요';
-                              } else {
-                                user.region = value;
-                              }
-                              return null;
+                              } return null;
                             },
                           ),
                           Container(
                               margin: const EdgeInsets.all(10.0),
                               alignment: Alignment.centerRight,
                               child: RaisedButton(
-                                child: Text('제출'),
+                                child: Text('로그인'),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    _createUser(user);
-
+                                    _login(user);
                                   }
                                 },
-                              ))
+                              )),
+                          Container(
+                              margin: const EdgeInsets.all(10.0),
+                              alignment: Alignment.centerRight,
+                              child: RaisedButton(
+                                child: Text('회원가입'),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/join');
+                                }
+                          ))
                         ]
                     )
                 )
@@ -162,39 +104,21 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void  _createUser(User user) async {
+  void _login(User user) async {
     try {
-      await auth.createUserWithEmailAndPassword(
-          email: user.email, password: user.password)
-          .then((cred) =>
-      {
-        firestore
-            .collection('user')
-            .doc(cred.user.uid)
-            .set({
-          'uid': cred.user.uid,
-          'name': user.name,
-          'email': user.email,
-          'region': user.region
-        })
-      }
-      );
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: user.email, password: user.password);
       Navigator.pushNamed(context, '/my_page');
+      await FirebaseAuth.instance.signInAnonymously();
     } catch (e) {
-      if (e.code == 'email-already-in-use') {
+      if (e.code == 'user-not-found') {
         print('==========================================');
-        print('The account already exists for that email.');
+        print('No user found for that email.');
         print('==========================================');
-      } else if (e.code == 'invalid-email') {
+      } else if (e.code == 'wrong-password') {
         print('==========================================');
-        print('The email address is badly formatted.');
+        print('Wrong password provided for that user.');
         print('==========================================');
-      } else if (e.code == 'weak-password') {
-        print('==========================================');
-        print('The password provided is too weak.');
-        print('==========================================');
-      } else {
-        print(e);
       }
     }
   }
