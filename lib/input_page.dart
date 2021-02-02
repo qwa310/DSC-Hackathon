@@ -121,4 +121,10 @@ class _InputPageState extends State<InputPage> {
     var now = DateTime.now();
     return now.month;
   }
+
+  String _getCurrentDate(){
+    var now = DateTime.now();
+    var format = 'yyyy-MM-dd';
+    return DateFormat(format).format(now);
+  }
 }
