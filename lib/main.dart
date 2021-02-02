@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import 'join_page.dart';
 import 'my_page.dart';
 import 'input_page.dart';
 import 'chart_page.dart';
@@ -22,6 +23,7 @@ class MainPage extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginPage(),
+        '/join': (context) => JoinPage(),
         '/my_page': (context) => MyPage(),
         '/input': (context) => InputPage(),
       },
