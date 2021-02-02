@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:power_rangers/my_page.dart';
 import 'result_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _pwController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _regionController = TextEditingController();
   final firestore = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
 
@@ -29,6 +32,8 @@ class _LoginPageState extends State<LoginPage> {
     //화면 종료 시 컨트롤러 종료
     _emailController.dispose();
     _pwController.dispose();
+    _nameController.dispose();
+    _regionController.dispose();
     super.dispose();
   }
 
@@ -87,10 +92,28 @@ class _LoginPageState extends State<LoginPage> {
                           TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: 'name',
+                              hintText: 'password 확인',
                             ),
                             keyboardType: TextInputType.text,
                             // controller: _pwController,
+                            validator: (value) {
+                              if (value.trim().isEmpty) {
+                                return '다시 입력해 주세요';
+                              } else if (value.trim() != user.password) {
+                                return '일치하지 않습니다';
+                              }return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'name',
+                            ),
+                            keyboardType: TextInputType.text,
+                            controller: _nameController,
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return '다시 입력해 주세요';
@@ -109,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                               hintText: 'region',
                             ),
                             keyboardType: TextInputType.text,
-                            // controller: _pwController,
+                            controller: _regionController,
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return '다시 입력해 주세요';
@@ -127,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
                                     _createUser(user);
-                                    Navigator.pushNamed(context, '/my_page');
+
                                   }
                                 },
                               ))
