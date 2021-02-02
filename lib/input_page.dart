@@ -30,10 +30,21 @@ class _InputPageState extends State<InputPage> {
     super.dispose();
   }
 
+  void _isUserExist(UserElectronics userElectronics) {
+    auth.authStateChanges()
+        .listen((User currentUser) {
+      if (currentUser == null) {
+        Navigator.pushNamed(context, '/login');
+      } else {
+        userElectronics.uid = currentUser.uid;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final userElectronics = UserElectronics();
-    _getUser(userElectronics);
+    _isUserExist(userElectronics);
     return Scaffold(
       appBar: AppBar(
         title: Text('${_getMonth()}월 전력 소비량 측정'),
