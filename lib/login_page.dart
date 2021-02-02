@@ -162,19 +162,40 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _createUser(User user) {
-    auth.createUserWithEmailAndPassword(email: user.email, password: user.password)
-        .then((cred) => {
-          firestore
+  void  _createUser(User user) async {
+    try {
+      await auth.createUserWithEmailAndPassword(
+          email: user.email, password: user.password)
+          .then((cred) =>
+      {
+        firestore
             .collection('user')
             .doc(cred.user.uid)
             .set({
-              'uid': cred.user.uid,
-              'name': user.name,
-              'email': user.email,
-              'region': user.region
-            })
-            .catchError((e) => print("Failed to add user: $e"))
-        });
+          'uid': cred.user.uid,
+          'name': user.name,
+          'email': user.email,
+          'region': user.region
+        })
+      }
+      );
+      Navigator.pushNamed(context, '/my_page');
+    } catch (e) {
+      if (e.code == 'email-already-in-use') {
+        print('==========================================');
+        print('The account already exists for that email.');
+        print('==========================================');
+      } else if (e.code == 'invalid-email') {
+        print('==========================================');
+        print('The email address is badly formatted.');
+        print('==========================================');
+      } else if (e.code == 'weak-password') {
+        print('==========================================');
+        print('The password provided is too weak.');
+        print('==========================================');
+      } else {
+        print(e);
+      }
+    }
   }
 }
