@@ -47,7 +47,7 @@ class _InputPageState extends State<InputPage> {
     _isUserExist(userElectronics);
     return Scaffold(
       appBar: AppBar(
-        title: Text('${_getMonth()}월 전력 소비량 측정'),
+        title: Text('${_getCurrentMonth()}월 전력 소비량 측정'),
       ),
       body: Center(
         child:Container(
@@ -115,5 +115,10 @@ class _InputPageState extends State<InputPage> {
         )
       )
     );
+  }
+
+  int _getCurrentMonth(){
+    var now = DateTime.now();
+    return now.month;
   }
 }
