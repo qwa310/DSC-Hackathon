@@ -5,6 +5,7 @@ import 'join_page.dart';
 import 'my_page.dart';
 import 'input_page.dart';
 import 'chart_page.dart';
+import 'welcome_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,8 +21,9 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      initialRoute: '/welcome',
       routes: {
+        '/welcome': (context) => Welcome(),
         '/login': (context) => LoginPage(),
         '/join': (context) => JoinPage(),
         '/my_page': (context) => MyPage(),
