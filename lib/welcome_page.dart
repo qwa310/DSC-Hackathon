@@ -8,7 +8,7 @@ class Welcome extends StatelessWidget {
   get decoration => null;
   @override
   Widget build(BuildContext context) {
-    _moveNextPage().then((value) => Navigator.pushNamed(context, '/login'));
+    _waitTwoSeconds().then((value) => Navigator.pushNamed(context, '/login'));
 
     return Scaffold(
       body: Stack(
@@ -49,7 +49,7 @@ class Welcome extends StatelessWidget {
     );
   }
 
-  Future<String> _moveNextPage() {
+  Future<String> _waitTwoSeconds() {
     return new Future<String>.delayed(Duration(seconds: 2));
   }
 }
