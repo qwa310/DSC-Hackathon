@@ -18,10 +18,12 @@ class Welcome extends StatelessWidget {
             height: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment(-1.0, -1.0),
-                end: Alignment(1.0, 1.0),
-                colors: [const Color(0xff5fcccb), const Color(0xfff3dd6e)],
-                stops: [0.0, 1.0],
+                colors: [
+                  Color(0xFF5FCCCB),
+                  Color(0xFFF3DD6E)
+                ],
+                begin: Alignment.topLeft, //컬러 시작점
+                end: Alignment.bottomRight, //컬러 끝나는점
               ),
               boxShadow: [
                 BoxShadow(
@@ -50,6 +52,6 @@ class Welcome extends StatelessWidget {
   }
 
   Future<String> _waitTwoSeconds() {
-    return new Future<String>.delayed(Duration(seconds: 2));
+    return new Future<String>.delayed(Duration(seconds: 6));
   }
 }

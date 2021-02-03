@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:power_rangers/my_page.dart';
-import 'result_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class User {
@@ -32,70 +30,148 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final user = User();
+    final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Login'),
-        ),
-        body: Center(
+        body: Form(
+            key: _formKey,
             child: Container(
-                padding: const EdgeInsets.all(15.0),
-                child: Form(
-                    key: _formKey,
-                    child: Column(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF5FCCCB),
+                      Color(0xFFF3DD6E)
+                    ],
+                    begin: Alignment.topLeft, //컬러 시작점
+                    end: Alignment.bottomRight, //컬러 끝나는점
+                  ),
+                ),
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                    child: ListView(
                         children: <Widget>[
+                          SizedBox(
+                            height: _screenSize.height * 0.06,
+                          ),
+                          Image.asset(
+                            'images/login.png',
+                            width: _screenSize.width * 0.9,
+                            height: _screenSize.height * 0.2,
+                          ),
+                          SizedBox(
+                            height: _screenSize.height * 0.07,
+                          ),
                           TextFormField(
+                            style: TextStyle(color: Colors.white),
+                            cursorColor: Colors.white,
+                            autofocus: true,
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'email',
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                  width: 2.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              hintText: '이메일 입력',
+                              hintStyle: TextStyle(color:Colors.white),
                             ),
                             keyboardType: TextInputType.text,
                             controller: _emailController,
-                            validator: (value) {
-                              if (value.trim().isEmpty) {
-                                return '다시 입력해 주세요';
-                              } else {
-                                user.email = value;
-                              } return null;
+                            validator: (input){
+                              if(input.isEmpty){
+                                return '다시 입력해주세요.';
+                              }
+                              return null;
                             },
+                            onSaved: (input) => user.email = input,
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 20,
                           ),
                           TextFormField(
+                            style: TextStyle(color: Colors.white),
+                            cursorColor: Colors.white,
+                            autofocus: true,
+                            obscureText: true,
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'password',
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                  width: 2.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              hintText: '비밀번호 입력',
+                              hintStyle: TextStyle(color:Colors.white),
                             ),
                             keyboardType: TextInputType.text,
                             controller: _pwController,
-                            validator: (value) {
-                              if (value.trim().isEmpty) {
-                                return '다시 입력해 주세요';
-                              } else {
-                                user.password = value;
-                              } return null;
+                            validator: (input){
+                              if(input.length < 6){
+                                return '비밀번호는 최소 6자리 이상이어야 합니다.';
+                              }
+                              return null;
                             },
+                            onSaved: (input) => user.password = input,
+                          ),
+                          SizedBox(
+                            height: 15,
                           ),
                           Container(
-                              margin: const EdgeInsets.all(10.0),
-                              alignment: Alignment.centerRight,
+                            margin: const EdgeInsets.fromLTRB(0,30,0,0),
+                            alignment: Alignment.center,
+                            child : ButtonTheme(
+                              minWidth: _screenSize.width * 0.9,
+                              height: _screenSize.height * 0.05,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                               child: RaisedButton(
-                                child: Text('로그인'),
+                                color: Colors.white,
+                                child: Text(
+                                  '로그인',
+                                  style: TextStyle(
+                                    color: Color(0xFF5FCCCB),
+                                    fontSize: 20,
+                                  ),
+                                ),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
                                     _login(user);
                                   }
                                 },
-                              )),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Container(
-                              margin: const EdgeInsets.all(10.0),
-                              alignment: Alignment.centerRight,
-                              child: RaisedButton(
-                                child: Text('회원가입'),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/join');
-                                }
-                          ))
+                            alignment: Alignment.center,
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/join');
+                              },
+                              child: Text(
+                                '회원가입',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                ),
+                              ),
+                            ),
+                          ),
                         ]
                     )
                 )
@@ -124,7 +200,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _login(User user) async {
+  Future<void> _login(User user) async {
+    final formState1 = _formKey.currentState;
+
+    if(formState1.validate()) {
+      formState1.save();
+    }
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: user.email, password: user.password);
