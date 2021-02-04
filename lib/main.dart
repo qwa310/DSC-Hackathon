@@ -4,8 +4,8 @@ import 'login_page.dart';
 import 'join_page.dart';
 import 'my_page.dart';
 import 'input_page.dart';
-import 'chart_page.dart';
 import 'welcome_page.dart';
+import 'calendar_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,20 +14,20 @@ void main() async {
 }
 
 class MainPage extends StatelessWidget {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/welcome',
+      initialRoute: '/calendar',
       routes: {
-        '/welcome': (context) => Welcome(),
-        '/login': (context) => LoginPage(),
-        '/join': (context) => JoinPage(),
-        '/my_page': (context) => MyPage(),
+        '/welcome': (context) => Welcome(), //completed
+        '/login': (context) => LoginPage(), //completed
+        //completed
+        '/my_page': (context) => MyPage(), //completed
         '/input': (context) => InputPage(),
+        '/join': (context) => JoinPage(),
+        '/calendar': (context) => CalendarPage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
