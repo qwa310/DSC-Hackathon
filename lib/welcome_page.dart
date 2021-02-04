@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatelessWidget {
@@ -8,7 +9,13 @@ class Welcome extends StatelessWidget {
   get decoration => null;
   @override
   Widget build(BuildContext context) {
-    _waitTwoSeconds().then((value) => Navigator.pushNamed(context, '/login'));
+    _waitTwoSeconds().then((value) {
+      if (FirebaseAuth.instance.currentUser != null) {
+        Navigator.pushReplacementNamed(context, '/my_page');
+      } else {
+        Navigator.pushReplacementNamed(context, '/login');
+      }
+    });
 
     return Scaffold(
       body: Stack(
@@ -52,6 +59,6 @@ class Welcome extends StatelessWidget {
   }
 
   Future<String> _waitTwoSeconds() {
-    return new Future<String>.delayed(Duration(seconds: 6));
+    return new Future<String>.delayed(Duration(seconds: 4));
   }
 }
