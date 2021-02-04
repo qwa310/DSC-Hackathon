@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class User {
   String email;
@@ -26,6 +27,15 @@ class _JoinPageState extends State<JoinPage> {
   final _contractController = TextEditingController();
   final firestore = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
+
+  String regionSelect, contractSelect;
+  List _locations = [
+    "서울특별시", "부산광역시", "인천광역시", "울산광역시", "대전광역시", "대구광역시", "광주광역시", "세종특별자치시",
+    "제주특별자치도", "강원도", "경기도", "경상남도", "경상북도", "전라남도", "전라북도", "충청남도", "충청북도",
+  ];
+  List _contractions = [
+    "저압 요금","고압 요금",
+  ];
 
   @override
   void dispose() {
@@ -216,73 +226,88 @@ class _JoinPageState extends State<JoinPage> {
                           SizedBox(
                               height: _screenSize.height * 0.01
                           ),
-                          TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            cursorColor: Colors.white,
-                            autofocus: true,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 2.0,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              hintText: '거주지 입력',
-                              hintStyle: TextStyle(color:Colors.white),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(15,0,0,0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(50),
                             ),
-                            keyboardType: TextInputType.text,
-                            controller: _regionController,
-                            validator: (value) {
-                              if (value.trim().isEmpty) {
-                                return '다시 입력해 주세요';
-                              } else {
-                                user.region = value;
-                              }
-                              return null;
-                            },
+                            child: DropdownButton(
+                              underline: Container(color: Colors.transparent),
+                              dropdownColor: Colors.transparent,
+                              value: regionSelect,
+                              isExpanded: true,
+                              hint : Text('거주지 선택',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),),
+                              onChanged: (newValue){
+                                setState((){
+                                  regionSelect = newValue;
+                                  FocusScope.of(context).requestFocus(new FocusNode());
+                                });
+                              },
+                              items: _locations.map((valueItem){
+                                return DropdownMenuItem(
+                                  value: valueItem,
+                                  child: Center(
+                                    child: Text(
+                                      valueItem,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                           ),
+
                           SizedBox(
                               height: _screenSize.height * 0.01
                           ),
-                          TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            cursorColor: Colors.white,
-                            autofocus: true,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 2.0,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              hintText: '전기요금 계약방식',
-                              hintStyle: TextStyle(color:Colors.white),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(15,0,0,0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(50),
                             ),
-                            keyboardType: TextInputType.text,
-                            controller: _contractController,
-                            validator: (value) {
-                              if (value.trim().isEmpty) {
-                                return '다시 입력해 주세요';
-                              } else {
-                                user.contract = value;
-                              }
-                              return null;
-                            },
+                            child: DropdownButton(
+                              underline: Container(color: Colors.transparent),
+                              dropdownColor: Colors.transparent,
+                              value: contractSelect,
+                              isExpanded: true,
+                              hint : Text('전기요금 계약방식 선택',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),),
+                              onChanged: (newValue){
+                                setState((){
+                                  contractSelect = newValue;
+                                  FocusScope.of(context).requestFocus(new FocusNode());
+                                });
+                                user.contract = contractSelect;
+                              },
+                              items: _contractions.map((valueItem){
+                                return DropdownMenuItem(
+                                  value: valueItem,
+                                  child: Center(
+                                    child: Text(
+                                      valueItem,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                           ),
+
                           Container(
                             margin: const EdgeInsets.fromLTRB(0,50,0,0),
                             alignment: Alignment.center,
@@ -301,11 +326,10 @@ class _JoinPageState extends State<JoinPage> {
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    if (_createUser(user) == 1) {
-                                      Navigator.pushNamed(
-                                          context, '/login');
-                                    }
-                                  }
+                                    if (_createUser(user) != 0) {
+                                      Navigator.pushNamed(context, '/login');
+                                    };
+                                  };
                                 },
                               ),
                             ),
@@ -358,29 +382,27 @@ class _JoinPageState extends State<JoinPage> {
       }
       );
       await FirebaseAuth.instance.signInAnonymously();
+      return 1;
     } catch (e) {
       if (e.code == 'email-already-in-use') {
         popupMsg('이미 가입된 이메일 입니다.');
         print('==========================================');
         print('The account already exists for that email.');
         print('==========================================');
-        return 0;
       } else if (e.code == 'invalid-email') {
         popupMsg('유효하지 않은 이메일 입니다.');
         print('==========================================');
         print('The email address is badly formatted.');
         print('==========================================');
-        return 0;
       } else if (e.code == 'weak-password') {
         popupMsg('비밀번호는 최소 6자리 이상입니다.');
         print('==========================================');
         print('The password provided is too weak.');
         print('==========================================');
-        return 0;
       } else {
         print(e);
-        return 1;
       }
+      return 0;
     }
   }
 }
