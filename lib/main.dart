@@ -19,7 +19,7 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/calendar',
+      initialRoute: '/welcome',
       routes: {
         '/welcome': (context) => Welcome(), //completed
         '/login': (context) => LoginPage(), //completed
