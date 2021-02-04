@@ -49,123 +49,97 @@ class MyPageView extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xFFFCFAF4),
+            ),
             child: ListView(
-          children: <Widget>[
-            Container(
-              height: _screenSize.height * 0.15,
-              width: _screenSize.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF5FCCCB), Color(0xFFF3DD6E)],
-                  begin: Alignment.topLeft, //컬러 시작점
-                  end: Alignment.bottomRight, //컬러 끝나는점
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  'My Page',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 33,
-                    fontWeight: FontWeight.bold,
+              children: <Widget>[
+                Container(
+                  height: _screenSize.height * 0.15,
+                  width: _screenSize.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF5FCCCB), Color(0xFFF3DD6E)],
+                      begin: Alignment.topLeft, //컬러 시작점
+                      end: Alignment.bottomRight, //컬러 끝나는점
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'My Page',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 33,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Container(
-              height: _screenSize.height * 0.9,
-              width: _screenSize.width,
-              decoration: BoxDecoration(
-                color: Color(0xFFFCFAF4),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Row(
+                Container(
+                  child: Column(
                     children: <Widget>[
-                      // [error] image path에 해당하는 이미지가 없음
-                      // Container(
-                      //   height: _screenSize.height * 0.3,
-                      //   padding: const EdgeInsets.fromLTRB(50, 30, 0, 30),
-                      //   child: Image.asset(
-                      //     'images/people.png',
-                      //     width: 100,
-                      //     height: 100,
-                      //   ),
-                      // ),
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                '계정 정보',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: _screenSize.height * 0.23,
+                            height: _screenSize.height * 0.23,
+                            child: Image.asset(
+                              'images/people.png',
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  '계정 정보',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: _screenSize.height * 0.015,
+                              ),
+                              Center(
+                                child: Text(
+                                  documentData.data()['name'] + ' Saver 님',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: _screenSize.height * 0.002,
+                              ),
+                              Text(
+                                documentData.data()['email'],
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: _screenSize.height * 0.015,
-                            ),
-                            Text(
-                              documentData.data()['name'] + ' Saver 님',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              SizedBox(
+                                height: _screenSize.height * 0.002,
                               ),
-                            ),
-                            SizedBox(
-                              height: _screenSize.height * 0.002,
-                            ),
-                            Text(
-                              documentData.data()['email'],
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              Text(
+                                documentData.data()['region'],
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: _screenSize.height * 0.003,
-                            ),
-                            Text(
-                              documentData.data()['region'],
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    child: Container(
-                      color: Colors.black,
-                      height: _screenSize.height * 0.0005,
-                    ),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        height: _screenSize.height * 0.1,
-                        child: FlatButton(
-                          minWidth: _screenSize.width,
-                          onPressed: () {
-                            infoDialog('버전 정보', 'Ver 1.1', context);
-                          },
-                          child: Text(
-                            '버전 정보',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
                       SizedBox(
                         child: Container(
@@ -173,29 +147,56 @@ class MyPageView extends StatelessWidget {
                           height: _screenSize.height * 0.0005,
                         ),
                       ),
-                      Container(
-                        child: FlatButton(
-                          minWidth: _screenSize.width,
-                          height: _screenSize.height * 0.1,
-                          onPressed: () {
-                            infoDialog('제작자 정보', 'Team. PowerRangers', context);
-                          },
-                          child: Text(
-                            '제작자 정보', //온클릭
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            height: _screenSize.height * 0.1,
+                            child: FlatButton(
+                              minWidth: _screenSize.width,
+                              onPressed: () {
+                                infoDialog('버전 정보', 'Ver 1.1', context);
+                              },
+                              child: Text(
+                                '버전 정보',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(
+                            child: Container(
+                              color: Colors.black,
+                              height: _screenSize.height * 0.0005,
+                            ),
+                          ),
+                          Container(
+                            child: FlatButton(
+                              minWidth: _screenSize.width,
+                              height: _screenSize.height * 0.1,
+                              onPressed: () {
+                                infoDialog('제작자 정보', 'Team. PowerRangers', context);
+                              },
+                              child: Text(
+                                '제작자 정보', //온클릭
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        )),
+        ),
       ),
     );
   }
