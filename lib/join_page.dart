@@ -9,8 +9,6 @@ class User {
   String email;
   String password;
   String name;
-  String region;
-  String contract;
 }
 
 class JoinPage extends StatefulWidget {
@@ -289,7 +287,6 @@ class _JoinPageState extends State<JoinPage> {
                                   contractSelect = newValue;
                                   FocusScope.of(context).requestFocus(new FocusNode());
                                 });
-                                user.contract = contractSelect;
                               },
                               items: _contractions.map((valueItem){
                                 return DropdownMenuItem(
@@ -326,10 +323,8 @@ class _JoinPageState extends State<JoinPage> {
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    if (_createUser(user) != 0) {
-                                      Navigator.pushNamed(context, '/login');
-                                    };
-                                  };
+                                    _createUser(user);
+                                  }
                                 },
                               ),
                             ),
@@ -367,20 +362,18 @@ class _JoinPageState extends State<JoinPage> {
     try {
       await auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password)
-          .then((cred) =>
-      {
-        firestore
-            .collection('user')
-            .doc(cred.user.uid)
-            .set({
-          'uid': cred.user.uid,
-          'name': user.name,
-          'email': user.email,
-          'region': user.region,
-          'contract': user.contract,
-        })
-      }
-      );
+          .then((cred) {
+            firestore
+                .collection('user')
+                .doc(cred.user.uid)
+                .set({
+              'uid': cred.user.uid,
+              'name': user.name,
+              'email': user.email,
+              'region': regionSelect,
+              'contract': contractSelect,
+            }).then((value) => Navigator.pushNamed(context, '/my_page'));
+          });
       await FirebaseAuth.instance.signInAnonymously();
       return 1;
     } catch (e) {
