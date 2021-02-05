@@ -6,6 +6,7 @@ import 'my_page.dart';
 import 'input_page.dart';
 import 'welcome_page.dart';
 import 'calendar_page.dart';
+import 'crud_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MainPage extends StatelessWidget {
         '/input': (context) => InputPage(),
         '/join': (context) => JoinPage(),
         '/calendar': (context) => CalendarPage(),
+        '/crud': (context) => CrudPage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
