@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -134,7 +133,8 @@ class HomePageView extends StatelessWidget {
                 margin: EdgeInsets.all(10.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/my_town');
+                    Navigator.pushNamed(context, '/calendar',
+                        arguments: {'year': DateFormat('yyyy').format(DateTime.now())});
                   },
                   child: Stack(
                     children: <Widget>[

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:power_rangers/my_power_page.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -78,8 +79,8 @@ class _CalendarPageState extends State<CalendarPage>{
             print("!!!!!!!!!!!!!!!calendar!!!!!!!!!!!!!!!!!!!");
             print(arg);
             print("!!!!!!!!!!!!!!!calendar!!!!!!!!!!!!!!!!!!!");
-            Navigator.pushNamed(context, '/my_power',
-                arguments: {'date': arg}); //소비량 화면으로 전환
+            Navigator.of(context)
+                .pushNamed('my_power', arguments: arg);
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100)
