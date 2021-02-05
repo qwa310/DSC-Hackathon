@@ -8,7 +8,6 @@ import 'calendar_page.dart';
 import 'crud_page.dart';
 import 'home_page.dart';
 import 'chart_page.dart';
-import 'navi_page.dart';
 import 'my_power_page.dart';
 import 'my_power2_page.dart';
 import 'my_town.dart';
@@ -34,7 +33,6 @@ class MainPage extends StatelessWidget {
         '/calendar': (context) => CalendarPage(),
         '/crud': (context) => CrudPage(),
         '/home': (context) => HomePage(),
-        '/navi': (context) => NaviPage(),
         '/my_town': (context) => MyTown(),
       },
       onGenerateRoute: (RouteSettings settings) {
