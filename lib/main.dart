@@ -7,6 +7,8 @@ import 'input_page.dart';
 import 'welcome_page.dart';
 import 'calendar_page.dart';
 import 'crud_page.dart';
+import 'home_page.dart';
+import 'chart_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +22,7 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/welcome',
+      initialRoute: '/home',
       routes: {
         '/welcome': (context) => Welcome(), //completed
         '/login': (context) => LoginPage(), //completed
@@ -30,6 +32,7 @@ class MainPage extends StatelessWidget {
         '/join': (context) => JoinPage(),
         '/calendar': (context) => CalendarPage(),
         '/crud': (context) => CrudPage(),
+        '/home': (context) => HomePage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

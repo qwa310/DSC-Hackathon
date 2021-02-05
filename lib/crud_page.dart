@@ -24,6 +24,18 @@ class _CrudPageState extends State<CrudPage> {
     final _screenSize = MediaQuery.of(context).size;
     List<Widget> _contatos = new List.generate(_count, (int i) => new FormLists());
     return new Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: new LayoutBuilder(builder: (context, constraint) {
           return new Container(
             width: _screenSize.width,
@@ -50,16 +62,17 @@ class _CrudPageState extends State<CrudPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  heightFactor: _screenSize.height * 0.004,
+                  heightFactor: _screenSize.height * 0.007,
                 ),
                 new Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  height: _screenSize.height * 0.7,
-                  width: _screenSize.width * 0.85,
+                  height: _screenSize.height * 0.65,
+                  width: _screenSize.width * 0.86,
                   child: new ListView(
+                    padding: EdgeInsets.fromLTRB(10,30,0,0),
                     children: _contatos,
                     scrollDirection: Axis.vertical,
                   ),
@@ -114,11 +127,10 @@ class SelectItems extends State<FormLists> {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     return new Container(
-      height: _screenSize.height*0.06,
       child: new Row(
         children: <Widget>[
           SizedBox(
-            width: _screenSize.width*0.12,
+            width: _screenSize.width*0.05,
           ),
           new DropdownButton(
             value: deviceSelect,
@@ -132,14 +144,11 @@ class SelectItems extends State<FormLists> {
             onChanged: changedDeviceItem,
             underline: Container(
               color: Colors.transparent,
-              width: _screenSize.width,
-              height: _screenSize.height,
-              alignment: Alignment.center,
             ),
             dropdownColor: Colors.white.withOpacity(0.9),
           ),
           SizedBox(
-            width: _screenSize.width*0.12,
+            width: _screenSize.width*0.05,
           ),
           new DropdownButton(
             value: timeSelect,
@@ -153,10 +162,19 @@ class SelectItems extends State<FormLists> {
             onChanged: changedTimeItem,
             underline: Container(
               color: Colors.transparent,
-              alignment: Alignment.center,
             ),
             dropdownColor: Colors.white.withOpacity(0.9),
           ),
+          SizedBox(
+            width: _screenSize.width*0.05,
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_forever),
+            color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context); //삭제 기능 아직 구현 x
+            },
+          )
         ],
       ),
     );
