@@ -12,7 +12,7 @@ class DocumentView extends StatelessWidget {
     return Container(
       width: _screenSize.width,
       height: _screenSize.height * 0.04,
-      margin: EdgeInsets.fromLTRB(30, 20, 0, 0),
+      margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
       child: Center(
         child: ListTile(
           title: Row(
@@ -31,7 +31,7 @@ class DocumentView extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),),
                 SizedBox(width: 30),
-                Text(documentData["calculate"].toString() + "(Kw)",
+                Text(documentData["calculate"].toInt().toString(),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
