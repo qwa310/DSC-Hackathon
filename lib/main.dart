@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'join_page.dart';
 import 'my_page.dart';
-import 'input_page.dart';
 import 'welcome_page.dart';
 import 'calendar_page.dart';
 import 'crud_page.dart';
@@ -13,7 +12,7 @@ import 'navi_page.dart';
 import 'my_power_page.dart';
 import 'my_power2_page.dart';
 import 'my_town.dart';
-import 'document_view.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -30,19 +29,21 @@ class MainPage extends StatelessWidget {
       routes: {
         '/welcome': (context) => Welcome(), //completed
         '/login': (context) => LoginPage(), //completed
-        //completed
         '/my_page': (context) => MyPage(), //completed
-        '/input': (context) => InputPage(),
         '/join': (context) => JoinPage(),
         '/calendar': (context) => CalendarPage(),
         '/crud': (context) => CrudPage(),
         '/home': (context) => HomePage(),
         '/navi': (context) => NaviPage(),
-        '/func_my_power': (context) => MyPowerPage("2021-02"),
-        '/func_order_by_devices': (context) => MyPower2Page("2021-02"),
         '/my_town': (context) => MyTown(),
-        //'/document' : (context) => DocumentView("2021-02"),
-        // '/my_town': (context) => ChartPage(200),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        var routes = <String, WidgetBuilder>{
+          'my_power': (context) => MyPowerPage(settings.arguments),
+          'my_power2': (context) => MyPower2Page(settings.arguments),
+        };
+        WidgetBuilder builder = routes[settings.name];
+        return MaterialPageRoute(builder: (ctx) => builder(ctx));
       },
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -50,6 +51,3 @@ class MainPage extends StatelessWidget {
     );
   }
 }
-
-
-
