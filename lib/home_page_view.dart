@@ -100,9 +100,8 @@ class HomePageView extends StatelessWidget {
                             ),
                             padding: EdgeInsets.all(6.0),
                             onPressed: () {
-                              // Navigator.pushNamed(context, '/crud'); // 기존에 민서님이 작업하시던 루트
-                              Navigator.pushNamed(context, '/input'); // create 여기 페이지가 일찍 될 것 같진 않은데,
-                              // 기능 확인해보시라고 인풋페이지 일단 둡니다! 여기서 값 써보세요
+                              Navigator.pushNamed(context, '/crud');
+                              // Navigator.pushNamed(context, '/input');
                             },
                           ),
                         ),
