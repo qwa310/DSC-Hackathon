@@ -27,7 +27,7 @@ class HomePageView extends StatelessWidget {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/my_page'); //리스트뷰로 이동
+                  Navigator.pushNamed(context, '/func_my_power'); //리스트뷰로 이동
                 },
                 child: Container(
                   child: Column(
@@ -100,7 +100,9 @@ class HomePageView extends StatelessWidget {
                             ),
                             padding: EdgeInsets.all(6.0),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/crud'); //입력 페이지로 이동
+                              // Navigator.pushNamed(context, '/crud'); // 기존에 민서님이 작업하시던 루트
+                              Navigator.pushNamed(context, '/input'); // create 여기 페이지가 일찍 될 것 같진 않은데,
+                              // 기능 확인해보시라고 인풋페이지 일단 둡니다! 여기서 값 써보세요
                             },
                           ),
                         ),
@@ -129,7 +131,7 @@ class HomePageView extends StatelessWidget {
                 margin: EdgeInsets.all(10.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/crud');
+                    Navigator.pushNamed(context, '/my_town');
                   },
                   child: Stack(
                     children: <Widget>[
@@ -167,7 +169,7 @@ class HomePageView extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/my_page');
+                      Navigator.pushNamed(context, '/func_order_by_devices');
                     },
                     child: Container(
                       width: _screenSize.width * 0.45,

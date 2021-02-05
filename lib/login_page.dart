@@ -35,6 +35,8 @@ class _LoginPageState extends State<LoginPage> {
         body: Form(
             key: _formKey,
             child: Container(
+                width: double.infinity,
+                height: double.infinity,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -210,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: user.email, password: user.password);
-      Navigator.pushNamed(context, '/my_page');
+      Navigator.pushNamed(context, '/home');
       await FirebaseAuth.instance.signInAnonymously();
     } catch (e) {
       if (e.code == 'user-not-found') {
