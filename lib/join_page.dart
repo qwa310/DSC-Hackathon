@@ -372,7 +372,7 @@ class _JoinPageState extends State<JoinPage> {
               'email': user.email,
               'region': regionSelect,
               'contract': contractSelect,
-            }).then((value) => Navigator.pushNamed(context, '/my_page'));
+            }).then((value) => Navigator.pushNamed(context, '/navi'));
           });
       await FirebaseAuth.instance.signInAnonymously();
       return 1;

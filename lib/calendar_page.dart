@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:power_rangers/my_power_page.dart';
 
 class CalendarPage extends StatefulWidget {
+
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
@@ -9,6 +11,7 @@ class _CalendarPageState extends State<CalendarPage>{
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
+    Map args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Container(
         width: _screenSize.width,
@@ -29,7 +32,7 @@ class _CalendarPageState extends State<CalendarPage>{
               Container(
                 alignment: Alignment.center,
                 height: _screenSize.height * 0.2,
-                child: Text('2020',
+                child: Text(args['year'],
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 50,
@@ -37,10 +40,10 @@ class _CalendarPageState extends State<CalendarPage>{
                   ),
                 ),
               ),
-              monthBtn(left: 1, middle: 2, right: 3),
-              monthBtn(left: 4, middle: 5, right: 6),
-              monthBtn(left: 7, middle: 8, right: 9),
-              monthBtn(left: 10, middle: 11, right: 12),
+              monthBtn(left: 1, middle: 2, right: 3, year: args['year']),
+              monthBtn(left: 4, middle: 5, right: 6, year: args['year']),
+              monthBtn(left: 7, middle: 8, right: 9, year: args['year']),
+              monthBtn(left: 10, middle: 11, right: 12, year: args['year']),
         ],
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         ),
@@ -48,33 +51,42 @@ class _CalendarPageState extends State<CalendarPage>{
     );
   }
 
-  Widget monthBtn({int left, int middle, int right}) {
+  Widget monthBtn({int left, int middle, int right, String year}) {
     return Row(
       children: <Widget>[
-        makeBtn(left, width: 60, height: 60),
-        makeBtn(middle, width: 60, height: 60),
-        makeBtn(right, width: 60, height: 60),
+        makeBtn(left, width: 60, height: 60, year: year),
+        makeBtn(middle, width: 60, height: 60, year: year),
+        makeBtn(right, width: 60, height: 60, year: year),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     );
 
   }
 
-  Widget makeBtn(int title, {double width, double height}) {
+  Widget makeBtn(int title, {double width, double height, String year}) {
     return Container(
       width: width,
       height: height,
         child: FlatButton(
           onPressed: (){
             print(title.toString());
-            /*
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    DisplayPage(title),
+                builder: (context) {
+                  var arg = '';
+                  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                  if (title.bitLength < 10) {
+                    arg = year + '-0' + title.toString();
+                  } else {
+                    arg = year + '-' + title.toString();
+                  }
+                  print(arg);
+                  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                  return MyPowerPage(arg);
+                }
               ),
-            );*/  //소비량 화면으로 전환
+            );  //소비량 화면으로 전환
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100)
@@ -83,7 +95,7 @@ class _CalendarPageState extends State<CalendarPage>{
             child: Text(
               title.toString(),
               style: TextStyle(
-                fontSize: 25.0,
+                fontSize: 20.0,
                 color: Colors.black,
               ),
             ),

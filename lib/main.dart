@@ -9,6 +9,10 @@ import 'calendar_page.dart';
 import 'crud_page.dart';
 import 'home_page.dart';
 import 'chart_page.dart';
+import 'navi_page.dart';
+import 'my_power_page.dart';
+import 'my_power2_page.dart';
+import 'my_town.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +26,7 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/home',
+      initialRoute: '/welcome',
       routes: {
         '/welcome': (context) => Welcome(), //completed
         '/login': (context) => LoginPage(), //completed
@@ -33,6 +37,11 @@ class MainPage extends StatelessWidget {
         '/calendar': (context) => CalendarPage(),
         '/crud': (context) => CrudPage(),
         '/home': (context) => HomePage(),
+        '/navi': (context) => NaviPage(),
+        '/func_my_power': (context) => MyPowerPage("2021-02"),
+        '/func_order_by_devices': (context) => MyPower2Page("2021-02"),
+        '/my_town': (context) => MyTown(),
+        // '/my_town': (context) => ChartPage(200),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -11,7 +11,7 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     _waitTwoSeconds().then((value) {
       if (FirebaseAuth.instance.currentUser != null) {
-        Navigator.pushReplacementNamed(context, '/my_page');
+        Navigator.pushReplacementNamed(context, '/home');
       } else {
         Navigator.pushReplacementNamed(context, '/login');
       }
