@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class HomePageView extends StatelessWidget {
+  final num result;
   final DocumentSnapshot documentData;
-  HomePageView(this.documentData);
+  HomePageView(this.documentData, this.result);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +17,7 @@ class HomePageView extends StatelessWidget {
         height: _screenSize.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFE7F3EB),
-              Color(0xFFF8F5E1)
-            ],
+            colors: [Color(0xFFE7F3EB), Color(0xFFF8F5E1)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -27,7 +27,8 @@ class HomePageView extends StatelessWidget {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/func_my_power'); //리스트뷰로 이동
+                  Navigator.of(context).pushNamed('my_power',
+                      arguments: DateFormat('yyyy-MM').format(DateTime.now()));
                 },
                 child: Container(
                   child: Column(
@@ -49,7 +50,20 @@ class HomePageView extends StatelessWidget {
                       SizedBox(
                         height: _screenSize.height * 0.01,
                       ),
-                      Text('지난 달보다 이번 달에',
+                      Text(
+                        '지난 달보다 이번 달에',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 28,
+                        ),
+                      ),
+                      SizedBox(
+                        height: _screenSize.height * 0.01,
+                      ),
+
+                      Text(
+                        "${ (0 <= result) ? '+' + result.toInt().toString() : '-' + result.toInt().toString()}" + " WH",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: Colors.black,
@@ -60,17 +74,7 @@ class HomePageView extends StatelessWidget {
                         height: _screenSize.height * 0.01,
                       ),
                       Text(
-                        '휴대폰을 10시간',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 28,
-                        ),
-                      ),
-                      SizedBox(
-                        height: _screenSize.height * 0.01,
-                      ),
-                      Text('더 사용했어요',
+                        '사용했어요',
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: Colors.black,
@@ -78,9 +82,9 @@ class HomePageView extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.fromLTRB(0,10,0,0),
+                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         alignment: Alignment.centerRight,
-                        child : ButtonTheme(
+                        child: ButtonTheme(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                             side: BorderSide(
@@ -92,8 +96,9 @@ class HomePageView extends StatelessWidget {
                             minWidth: _screenSize.width * 0.015,
                             height: _screenSize.height * 0.015,
                             color: Colors.transparent,
-                            child: Text('전력 소비량 측정하기',
-                              style : TextStyle(
+                            child: Text(
+                              '전력 소비량 측정하기',
+                              style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 12,
                               ),
@@ -101,7 +106,6 @@ class HomePageView extends StatelessWidget {
                             padding: EdgeInsets.all(6.0),
                             onPressed: () {
                               Navigator.pushNamed(context, '/crud');
-                              // Navigator.pushNamed(context, '/input');
                             },
                           ),
                         ),
@@ -109,13 +113,13 @@ class HomePageView extends StatelessWidget {
                     ],
                   ),
                   width: _screenSize.width,
-                  height:  _screenSize.height * 0.35,
+                  height: _screenSize.height * 0.35,
                   margin: EdgeInsets.fromLTRB(0, 30, 30, 0),
                 ),
               ),
               Container(
                 width: _screenSize.width * 0.6,
-                height:  _screenSize.height * 0.3,
+                height: _screenSize.height * 0.3,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25),
@@ -134,7 +138,8 @@ class HomePageView extends StatelessWidget {
                   },
                   child: Stack(
                     children: <Widget>[
-                      Image.asset('images/home.png',
+                      Image.asset(
+                        'images/home.png',
                         width: _screenSize.width,
                         height: _screenSize.height,
                         fit: BoxFit.fill,
@@ -168,11 +173,13 @@ class HomePageView extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/func_order_by_devices');
+                      Navigator.of(context).pushNamed('my_power2',
+                          arguments:
+                              DateFormat('yyyy-MM').format(DateTime.now()));
                     },
                     child: Container(
                       width: _screenSize.width * 0.45,
-                      height:  _screenSize.height * 0.25,
+                      height: _screenSize.height * 0.25,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(25),
@@ -202,7 +209,7 @@ class HomePageView extends StatelessWidget {
                     },
                     child: Container(
                       width: _screenSize.width * 0.45,
-                      height:  _screenSize.height * 0.25,
+                      height: _screenSize.height * 0.25,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(25),
@@ -221,7 +228,7 @@ class HomePageView extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 27,
+                          fontSize: 25,
                         ),
                       ),
                     ),
