@@ -69,24 +69,17 @@ class _CalendarPageState extends State<CalendarPage>{
       height: height,
         child: FlatButton(
           onPressed: (){
-            print(title.toString());
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  var arg = '';
-                  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                  if (title.bitLength < 10) {
-                    arg = year + '-0' + title.toString();
-                  } else {
-                    arg = year + '-' + title.toString();
-                  }
-                  print(arg);
-                  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                  return MyPowerPage(arg);
-                }
-              ),
-            );  //소비량 화면으로 전환
+            var arg = '';
+            if (title.bitLength < 10) {
+              arg = year + '-0' + title.toString();
+            } else {
+              arg = year + '-' + title.toString();
+            }
+            print("!!!!!!!!!!!!!!!calendar!!!!!!!!!!!!!!!!!!!");
+            print(arg);
+            print("!!!!!!!!!!!!!!!calendar!!!!!!!!!!!!!!!!!!!");
+            Navigator.pushNamed(context, '/my_power',
+                arguments: {'date': arg}); //소비량 화면으로 전환
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100)
