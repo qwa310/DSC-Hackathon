@@ -129,13 +129,13 @@ class SelectItems extends State<FormLists> {
     return new Container(
       child: new Row(
         children: <Widget>[
-          SizedBox(
-            width: _screenSize.width*0.05,
-          ),
+          // SizedBox(
+          //   width: _screenSize.width*0.05,
+          // ),
           new DropdownButton(
             value: deviceSelect,
             items: _devicesItems,
-            hint: Text('전자 기기 명',
+            hint: Text('전자기기 명',
               style: TextStyle(
                 color: Colors.black45,
                 fontSize: 17,
@@ -147,13 +147,13 @@ class SelectItems extends State<FormLists> {
             ),
             dropdownColor: Colors.white.withOpacity(0.9),
           ),
-          SizedBox(
-            width: _screenSize.width*0.05,
-          ),
+          // SizedBox(
+          //   width: _screenSize.width*0.05,
+          // ),
           new DropdownButton(
             value: timeSelect,
             items: _timesItems,
-            hint: Text('하루 사용 시간',
+            hint: Text('사용시간',
               style: TextStyle(
                 color: Colors.black45,
                 fontSize: 17,
@@ -165,21 +165,28 @@ class SelectItems extends State<FormLists> {
             ),
             dropdownColor: Colors.white.withOpacity(0.9),
           ),
-          SizedBox(
-            width: _screenSize.width*0.05,
+          // SizedBox( // 저는 사이즈 아웃이 나와서 주석처리했습니다!
+          //   width: _screenSize.width*0.05,
+          // ),
+          IconButton(
+            icon: const Icon(Icons.save_sharp),
+            color: Colors.black,
+            onPressed: () {
+              savePower(deviceSelect, timeSelect);
+            },
           ),
           IconButton(
             icon: const Icon(Icons.delete_forever),
             color: Colors.black,
             onPressed: () {
-              Navigator.pop(context); //삭제 기능 아직 구현 x
+              deletePower(deviceSelect);
+              // Navigator.pop(context);
             },
           )
         ],
       ),
     );
   }
-
   List _devices = [
     "냉장고", "김치냉장고", "일반세탁기", "드럼세탁기", "정수기", "전기밥솥",
     "전기진공청소기", "선풍기", "공기청정기", "형광등", "보일러", "충전기",
@@ -244,34 +251,56 @@ class SelectItems extends State<FormLists> {
     setState(() {
       deviceSelect = selectedDevice;
       userElectronics.device = deviceSelect;
-      _addElectronics(userElectronics);
     });
   }
   void changedTimeItem(String selectedTime) {
     setState(() {
       timeSelect = selectedTime;
       userElectronics.time = timeSelect;
-      _addElectronics(userElectronics);
     });
   }
 
 
   String _getCurrentDate(){
-    var now = DateTime.now();
-    var format = 'yyyy-MM-dd';
-    return DateFormat(format).format(now);
+    return DateFormat('yyyy-MM-dd').format(DateTime.now());
   }
 
-  void _addElectronics(UserElectronics userElectronics) {
+  String _getCurrentYearAndMonth() {
+    return DateFormat('yyyy-MM').format(DateTime.now());
+  }
+
+  void savePower(String device, String time) {
     String date = _getCurrentDate();
     firestore
-        .collection('user')
-        .doc(userElectronics.uid)
-        .collection(userElectronics.device)
-        .doc(date)
-        .set({
-      'UsageTime': userElectronics.time,
-      'createdDate': date  //month로 변경해야 함.
+        .collection('electronics')
+        .where("device", isEqualTo: device)
+        .get()
+        .then((QuerySnapshot ds) {
+      var defaultValue = ds.docs[0]['Wh'];
+      firestore
+          .collection('user')
+          .doc(auth.currentUser.uid)
+          .collection(_getCurrentYearAndMonth())
+          .doc(device)
+          .set({
+        'device': device,
+        'UsageTime': double.parse(time),
+        'createdDate': date,
+        'modifiedDate': date,
+        'Wh': defaultValue,
+        'calculate': double.parse(time) * double.parse(defaultValue)
+      });
     });
+  }
+
+  void deletePower(String device) {
+    print("=============================");
+    print(device);
+    print("=============================");
+    firestore.collection('user')
+        .doc(auth.currentUser.uid)
+        .collection(_getCurrentYearAndMonth())
+        .doc(device)
+        .delete();
   }
 }
