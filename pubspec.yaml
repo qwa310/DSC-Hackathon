@@ -19,6 +19,7 @@ dependencies:
 
   intl: ^0.16.0
   adobe_xd: ^1.0.0+1
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   flutter_test:

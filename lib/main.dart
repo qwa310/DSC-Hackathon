@@ -13,7 +13,7 @@ import 'navi_page.dart';
 import 'my_power_page.dart';
 import 'my_power2_page.dart';
 import 'my_town.dart';
-
+import 'document_view.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -26,7 +26,7 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       title: 'Main Page',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/welcome',
+      initialRoute: '/navi',
       routes: {
         '/welcome': (context) => Welcome(), //completed
         '/login': (context) => LoginPage(), //completed
@@ -41,10 +41,10 @@ class MainPage extends StatelessWidget {
         '/func_my_power': (context) => MyPowerPage("2021-02"),
         '/func_order_by_devices': (context) => MyPower2Page("2021-02"),
         '/my_town': (context) => MyTown(),
+        //'/document' : (context) => DocumentView("2021-02"),
         // '/my_town': (context) => ChartPage(200),
       },
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );

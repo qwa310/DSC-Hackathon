@@ -1,25 +1,42 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DocumentView extends StatelessWidget {
   final DocumentSnapshot documentData;
+  int count = 0;
   DocumentView(this.documentData);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
+    final _screenSize = MediaQuery.of(context).size;
+    return Container(
+      width: _screenSize.width,
+      height: _screenSize.height * 0.04,
+      margin: EdgeInsets.fromLTRB(30, 20, 0, 0),
+      child: Center(
         child: ListTile(
-          title: Text(documentData["device"]),
-          subtitle: Row(
-            children: <Widget>[
-              Text(documentData["UsageTime"].toString()),
-              SizedBox(width: 10, height: 10),
-              Text(documentData["calculate"].toString()),
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(documentData["device"],
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 30),
+                Text(documentData["UsageTime"].toString() + '시간',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),),
+                SizedBox(width: 30),
+                Text(documentData["calculate"].toString() + "(Kw)",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
             ],
           ),
         ),
