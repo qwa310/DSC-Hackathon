@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'document_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+
 class MyPowerPageView extends StatelessWidget {
-  final num total;
+  final num result;
   final String date;
   final List<DocumentSnapshot> documents;
-  MyPowerPageView(this.date, this.documents, this.total);
+  MyPowerPageView(this.date, this.documents, this.result);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class MyPowerPageView extends StatelessWidget {
                   children: <Widget>[
                     new Center(
                       child: Text(
-                        '${_getCurrentMonth()}월보다 이번 달에\n +100kw 사용했어요',
+                        '${_getCurrentMonth()}월보다 이번 달에\n +${result.toInt()} 사용했어요',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
