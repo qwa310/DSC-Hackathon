@@ -50,7 +50,7 @@ class HomePageView extends StatelessWidget {
                         height: _screenSize.height * 0.01,
                       ),
                       Text(
-                        '지난 달보다 이번 달에',
+                        '이번 달에',
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: Colors.black,
@@ -62,7 +62,7 @@ class HomePageView extends StatelessWidget {
                       ),
 
                       Text(
-                        "${ (0 <= result) ? '+' + result.toInt().toString() : '-' + result.toInt().toString()}" + " WH",
+                        "${result.toInt().toString()} WH를",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: Colors.black,
