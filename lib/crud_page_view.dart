@@ -22,7 +22,7 @@ class _CrudPageViewState extends State<CrudPageView> {
         .map((eachDocument) => FormLists(eachDocument['device'], eachDocument['UsageTime'].toString())).toList();
     if (_contatos.length < 10) {
       for (int i = _contatos.length; i < 10; i++){
-        _contatos.add(FormLists('전자 기기', '사용 시간'));
+        _contatos.add(FormLists('전자 기기', '시간'));
       }
     }
 
@@ -68,15 +68,18 @@ class _CrudPageViewState extends State<CrudPageView> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
+                    boxShadow: [ BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(2.0, 4.0),
+                        blurRadius: 5.0,
+                      ),
+                    ],
                   ),
                   height: _screenSize.height * 0.65,
                   width: _screenSize.width * 0.86,
                   child: new ListView(
                     padding: EdgeInsets.fromLTRB(10, 30, 0, 0),
                     children: _contatos,
-                    // children: widget.documentData
-                    //     .map((eachDocument) => FormLists(eachDocument))
-                    //     .toList(),
                     scrollDirection: Axis.vertical,
                   ),
                 ),
@@ -148,7 +151,7 @@ class SelectItems extends State<FormLists> {
             dropdownColor: Colors.white.withOpacity(0.9),
           ),
           SizedBox(
-            width: _screenSize.width*0.02,
+            width: _screenSize.width*0.06,
           ),
           IconButton(
             icon: const Icon(Icons.save_sharp),
