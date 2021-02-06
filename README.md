@@ -35,7 +35,7 @@
 
 ### - FLOW CHART
 
-![2](https://user-images.githubusercontent.com/46439700/107113095-03a2f780-68a0-11eb-83f6-2eb5df1318ca.JPG)
+![dsc hackathon-3](https://user-images.githubusercontent.com/46439700/107113838-e6245c80-68a4-11eb-875f-861c2de84140.jpg)
 --------------------------------------------------------------------------------------------
 
 ### - LOGIN : 이메일, 비밀번호
