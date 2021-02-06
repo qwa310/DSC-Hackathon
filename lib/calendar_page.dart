@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:intl/intl.dart';
-import 'package:power_rangers/my_power_page.dart';
+
+
 
 class CalendarPage extends StatefulWidget {
-
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
@@ -12,8 +12,9 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage>{
   @override
   Widget build(BuildContext context) {
-    final _screenSize = MediaQuery.of(context).size;
+
     Map args = ModalRoute.of(context).settings.arguments;
+    final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         width: _screenSize.width,
@@ -42,7 +43,7 @@ class _CalendarPageState extends State<CalendarPage>{
                     Container(
                       alignment: Alignment.center,
                       height: _screenSize.height * 0.2,
-                      child: Text(args['year'],
+                      child: Text(NextYear(args['year'], index),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 50,
@@ -61,6 +62,11 @@ class _CalendarPageState extends State<CalendarPage>{
           )
       ),
     );
+  }
+
+  String NextYear(String year, int index){
+    int nextYear = int.parse(year) + index;
+    return nextYear.toString();
   }
 
   Widget monthBtn({int left, int middle, int right, String year}) {
