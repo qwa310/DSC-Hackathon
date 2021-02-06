@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class CrudPageView extends StatefulWidget {
   final List<DocumentSnapshot> documentData;
+
   CrudPageView(this.documentData);
 
   @override
@@ -15,18 +17,19 @@ class CrudPageView extends StatefulWidget {
 class _CrudPageViewState extends State<CrudPageView> {
   @override
   Widget build(BuildContext context) {
-    final _screenSize = MediaQuery
-        .of(context)
-        .size;
+    final _screenSize = MediaQuery.of(context).size;
     List<Widget> _contatos = widget.documentData
-        .map((eachDocument) => FormLists(eachDocument['device'], eachDocument['UsageTime'].toString())).toList();
+        .map((eachDocument) => FormLists(
+            eachDocument['device'], eachDocument['UsageTime'].toString()))
+        .toList();
     if (_contatos.length < 10) {
-      for (int i = _contatos.length; i < 10; i++){
+      for (int i = _contatos.length; i < 10; i++) {
         _contatos.add(FormLists('전자 기기', '시간'));
       }
     }
 
     return new Scaffold(
+        resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -39,7 +42,8 @@ class _CrudPageViewState extends State<CrudPageView> {
             },
           ),
         ),
-        body: new LayoutBuilder(builder: (context, constraint) {
+        body: SingleChildScrollView(
+            child: new LayoutBuilder(builder: (context, constraint) {
           return new Container(
             width: _screenSize.width,
             height: _screenSize.height,
@@ -68,7 +72,8 @@ class _CrudPageViewState extends State<CrudPageView> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
-                    boxShadow: [ BoxShadow(
+                    boxShadow: [
+                      BoxShadow(
                         color: Colors.grey,
                         offset: Offset(2.0, 4.0),
                         blurRadius: 5.0,
@@ -86,11 +91,10 @@ class _CrudPageViewState extends State<CrudPageView> {
               ],
             ),
           );
-        })
-    );
+        })));
   }
 
-  int _getCurrentMonth(){
+  int _getCurrentMonth() {
     var now = DateTime.now();
     return now.month;
   }
@@ -98,6 +102,7 @@ class _CrudPageViewState extends State<CrudPageView> {
 
 class FormLists extends StatefulWidget {
   final String device, UsageTime;
+
   const FormLists(this.device, this.UsageTime);
 
   @override
@@ -115,12 +120,13 @@ class SelectItems extends State<FormLists> {
       child: new Row(
         children: <Widget>[
           SizedBox(
-            width: _screenSize.width*0.05,
+            width: _screenSize.width * 0.05,
           ),
           new DropdownButton(
             value: deviceSelect,
             items: _devicesItems,
-            hint: Text(widget.device,
+            hint: Text(
+              widget.device,
               style: TextStyle(
                 color: Colors.black45,
                 fontSize: 17,
@@ -133,25 +139,22 @@ class SelectItems extends State<FormLists> {
             dropdownColor: Colors.white.withOpacity(0.9),
           ),
           SizedBox(
-            width: _screenSize.width*0.05,
-          ),
-          new DropdownButton(
-            value: timeSelect,
-            items: _timesItems,
-            hint: Text(widget.UsageTime,
-              style: TextStyle(
-                color: Colors.black45,
-                fontSize: 17,
-              ),
-            ),
-            onChanged: changedTimeItem,
-            underline: Container(
-              color: Colors.transparent,
-            ),
-            dropdownColor: Colors.white.withOpacity(0.9),
+            width: _screenSize.width * 0.05,
           ),
           SizedBox(
-            width: _screenSize.width*0.06,
+            width: _screenSize.width * 0.15,
+            height: _screenSize.width * 0.08,
+            child: TextField(
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+              ],
+              decoration: InputDecoration(hintText: widget.UsageTime),
+              onChanged: changedTimeItem,
+            ),
+          ),
+          SizedBox(
+            width: _screenSize.width * 0.06,
           ),
           IconButton(
             icon: const Icon(Icons.save_sharp),
@@ -180,10 +183,6 @@ class SelectItems extends State<FormLists> {
     "도어폰", "비데", "공유기"
   ];
 
-  List _times = ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10",
-    "10.5", "11", "11.5", "12", "12.5", "13", "13.5", "14", "14.5", "15", "15.5", "16", "16.5", "17", "17.5", "18", "18.5", "19", "19.5",
-    "20", "20.5", "21", "21.5", "22", "22.5", "23", "23.5", "24",];
-
   List<DropdownMenuItem<String>> _devicesItems;
   List<DropdownMenuItem<String>> _timesItems;
   String deviceSelect, timeSelect;
@@ -191,7 +190,7 @@ class SelectItems extends State<FormLists> {
   @override
   void initState() {
     _devicesItems = getDeviceItems();
-    _timesItems = getTimeItems();
+    // _timesItems = getTimeItems();
     deviceSelect = null;
     timeSelect = null;
     super.initState();
@@ -200,36 +199,20 @@ class SelectItems extends State<FormLists> {
   List<DropdownMenuItem<String>> getDeviceItems() {
     List<DropdownMenuItem<String>> deviceList = new List();
     for (String userDevice in _devices) {
-      deviceList.add(new DropdownMenuItem(
-        value: userDevice,
-        child: new Text(
-          userDevice,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 17,
-          ),
-        ),
-      ),
-      );
-    }
-    return deviceList;
-  }
-
-  List<DropdownMenuItem<String>> getTimeItems() {
-    List<DropdownMenuItem<String>> timeList = new List();
-    for (String userTime in _times) {
-      timeList.add(new DropdownMenuItem(
-          value: userTime,
+      deviceList.add(
+        new DropdownMenuItem(
+          value: userDevice,
           child: new Text(
-            userTime,
+            userDevice,
             style: TextStyle(
               color: Colors.black,
               fontSize: 17,
             ),
-          )
-      ));
+          ),
+        ),
+      );
     }
-    return timeList;
+    return deviceList;
   }
 
   void changedDeviceItem(String selectedDevice) {
@@ -243,8 +226,7 @@ class SelectItems extends State<FormLists> {
     });
   }
 
-
-  String _getCurrentDate(){
+  String _getCurrentDate() {
     return DateFormat('yyyy-MM-dd').format(DateTime.now());
   }
 
