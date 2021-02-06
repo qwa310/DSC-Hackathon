@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:intl/intl.dart';
 import 'package:power_rangers/my_power_page.dart';
 
@@ -28,26 +29,36 @@ class _CalendarPageState extends State<CalendarPage>{
           ),
         ),
         padding: const EdgeInsets.all(30.0),
-        child: Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                height: _screenSize.height * 0.2,
-                child: Text(args['year'],
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+          child: new Swiper(
+              control: SwiperControl(
+                color: Colors.black,
               ),
-              monthBtn(left: 1, middle: 2, right: 3, year: args['year']),
-              monthBtn(left: 4, middle: 5, right: 6, year: args['year']),
-              monthBtn(left: 7, middle: 8, right: 9, year: args['year']),
-              monthBtn(left: 10, middle: 11, right: 12, year: args['year']),
-        ],
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        ),
+              itemCount: 200,
+              scale: 0.6,
+              viewportFraction: 0.9,
+              itemBuilder: (BuildContext context, int index){
+                return new Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      height: _screenSize.height * 0.2,
+                      child: Text(args['year'],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    monthBtn(left: 1, middle: 2, right: 3, year: args['year']),
+                    monthBtn(left: 4, middle: 5, right: 6, year: args['year']),
+                    monthBtn(left: 7, middle: 8, right: 9, year: args['year']),
+                    monthBtn(left: 10, middle: 11, right: 12, year: args['year']),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                );
+              }
+          )
       ),
     );
   }
