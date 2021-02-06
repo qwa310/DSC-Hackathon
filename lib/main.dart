@@ -46,6 +46,7 @@ class MainPage extends StatelessWidget {
         return MaterialPageRoute(builder: (ctx) => builder(ctx));
       },
       theme: ThemeData(
+        fontFamily: 'NanumSquare',
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );

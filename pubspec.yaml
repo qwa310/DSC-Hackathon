@@ -39,6 +39,18 @@ flutter:
   uses-material-design: true
   assets:
    - images/
+   - fonts/
+
+  fonts:
+  - family: NanumSquare
+    fonts:
+      - asset: fonts/NanumSquareR.ttf
+      - asset: fonts/NanumSquareB.ttf
+        weight: 700
+      - asset: fonts/NanumSquareEB.ttf
+        weight: 800
+      - asset: fonts/NanumSquareL.ttf
+        weight: 300
 
   #fonts:
   #    - family: UhBee BongSik

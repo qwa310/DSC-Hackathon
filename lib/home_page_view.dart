@@ -73,7 +73,7 @@ class HomePageView extends StatelessWidget {
                         height: _screenSize.height * 0.01,
                       ),
                       Text(
-                        '사용했어요',
+                        '사용했어요!',
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: Colors.black,
@@ -147,7 +147,7 @@ class HomePageView extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          '한 눈에 보는 우리 동네 전력 소비량 ->',
+                          '한 눈에 보는 우리 동네 전력 소비량         ->',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,
@@ -181,14 +181,14 @@ class HomePageView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      padding: EdgeInsets.all(60.0),
-                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(61.0),
+                      margin: EdgeInsets.all(8.0),
                       child: Text(
-                        '기기별 사용량 순위',
+                        '기기별\n사용량\n순위',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 25,
+                          fontSize: 23,
                         ),
                       ),
                     ),
@@ -211,7 +211,7 @@ class HomePageView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      padding: EdgeInsets.fromLTRB(62, 66, 60, 60),
+                      padding: EdgeInsets.fromLTRB(62, 75, 60, 60),
                       margin: EdgeInsets.all(10.0),
                       child: Text(
                         'MY PAGE',

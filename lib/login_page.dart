@@ -136,14 +136,14 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.center,
                             child : ButtonTheme(
                               minWidth: _screenSize.width * 0.9,
-                              height: _screenSize.height * 0.05,
+                              height: _screenSize.height * 0.07,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                               child: RaisedButton(
                                 color: Colors.white,
                                 child: Text(
                                   '로그인',
                                   style: TextStyle(
-                                    color: Color(0xFF5FCCCB),
+                                    color: Color(0xAA000000),
                                     fontSize: 20,
                                   ),
                                 ),
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontSize: 22,
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
