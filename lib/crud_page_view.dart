@@ -168,6 +168,7 @@ class SelectItems extends State<FormLists> {
             icon: const Icon(Icons.save_sharp),
             color: Colors.black,
             onPressed: () {
+              saveMsg("저장되었습니다.");
               savePower(deviceSelect, timeSelect);
             },
           ),
@@ -175,14 +176,62 @@ class SelectItems extends State<FormLists> {
             icon: const Icon(Icons.delete_forever),
             color: Colors.black,
             onPressed: () {
-              deletePower(deviceSelect);
-              // Navigator.pop(context);
+              deleteMsg();
             },
           )
         ],
       ),
     );
   }
+
+  void saveMsg(String msg){
+    showDialog(context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return AlertDialog(
+            content: SingleChildScrollView(
+              child: Text(msg),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('확인'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]
+        );},
+    );
+  }
+
+  void deleteMsg(){
+    showDialog(context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return AlertDialog(
+            content: SingleChildScrollView(
+              child: Text("삭제 하시겠습니까?"),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('예'),
+                onPressed: (){
+                  deletePower(deviceSelect);
+                  Navigator.of(context).pop();
+                  saveMsg("삭제되었습니다.");
+                },
+              ),
+              FlatButton(
+                child: Text('아니오'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]
+        );},
+    );
+  }
+
   List _devices = [
     "냉장고", "김치냉장고", "일반세탁기", "드럼세탁기", "정수기", "전기밥솥",
     "청소기", "선풍기", "공기청정기", "형광등", "보일러", "충전기",
