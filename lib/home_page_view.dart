@@ -133,7 +133,7 @@ class HomePageView extends StatelessWidget {
                 margin: EdgeInsets.all(10.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/calendar',
+                    Navigator.pushNamed(context, '/chart',  //calendar -> chart 로 변경
                         arguments: {'year': DateFormat('yyyy').format(DateTime.now())});
                   },
                   child: Stack(
@@ -143,16 +143,6 @@ class HomePageView extends StatelessWidget {
                         width: _screenSize.width,
                         height: _screenSize.height,
                         fit: BoxFit.fill,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          '한 눈에 보는 우리 동네 전력 소비량 ->',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                        ),
                       ),
                       Container(
                         padding: EdgeInsets.all(20.0),

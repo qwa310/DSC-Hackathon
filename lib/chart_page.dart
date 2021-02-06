@@ -1,32 +1,67 @@
-import 'dart:math';
-import 'package:flutter/foundation.dart';
+import 'package:bezier_chart/bezier_chart.dart';
 import 'package:flutter/material.dart';
 
-class ChartPage extends StatelessWidget {
-  final double result; //소비 전력량
-  double avg = 200.4; //지역별 평균 소비 전력량 -> 서버(db)를 통해서 가져올 것
-  ChartPage(this.result);
+class ChartPage extends StatefulWidget {
+  ChartPage({Key key}) : super(key: key);
 
   @override
+  _ChartPageState createState() => _ChartPageState();
+}
+
+class _ChartPageState extends State<ChartPage> {
+  @override
   Widget build(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('Custom Graph'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: Center(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF5FCCCB),
+              Color(0xFFF3DD6E)
+            ],
+            begin: Alignment.topLeft, //컬러 시작점
+            end: Alignment.bottomRight, //컬러 끝나는점
+          ),
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CustomPaint(
-              size: Size(300, 300),
-              painter: PieChart(percentage : result, average: avg), //percentage
-            ),
             Container(
-              child : RaisedButton(
-                child: Text('제출'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/my_page');
-                },
+              height: _screenSize.height * 0.2,
+              alignment: Alignment.center,
+              child: Text(
+                "n월 우리 동네 전력 소비량",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ChartDisplay(context),
+            Container(
+              height: _screenSize.height * 0.3,
+              margin: EdgeInsets.all(30),
+              child: Text('지난해 n월 우리 동네보다\n' + 'n(Kw) 사용했어요!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 28,
+                ),
               ),
             ),
           ],
@@ -34,66 +69,78 @@ class ChartPage extends StatelessWidget {
       ),
     );
   }
-}
 
-class PieChart extends CustomPainter {
-  final double percentage;
-  final double average;
-  final double textScaleFactor;
-
-  PieChart({@required this.percentage, this.average, this.textScaleFactor = 1.0});
-
-  @override
-  void paint(Canvas canvas, Size size){
-    Paint paint = Paint()
-        ..color = Colors.indigo
-        ..strokeWidth = 12.0
-        ..style = PaintingStyle.stroke
-        ..strokeCap = StrokeCap.round;
-
-    double radius = min(size.width / 2 - paint.strokeWidth /2, size.height / 2 - paint.strokeWidth / 2);
-
-    Offset center = Offset(size.width / 2, size.height / 2);
-
-    //원 그래프 그리는 함수
-    canvas.drawCircle(center, radius, paint);
-
-    double arcAngle = 2 * pi * (percentage / average);
-    paint..color = Colors.deepOrangeAccent;
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), - pi / 2,
-        arcAngle, false, paint);
-    textSet(canvas, size, '$percentage / $average');
-  }
-
-  void textSet(Canvas canvas, Size size, String text) {
-    double fontSize = getFontSize(size, text);
-
-    TextSpan sp = TextSpan(
-      text: text,
-      style: TextStyle(
-          fontSize: fontSize,
-          fontWeight: FontWeight.bold,
-          color: Colors.black
+  Widget ChartDisplay(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
+    return Center(
+      child: Container(
+        color: Colors.transparent,
+        height: _screenSize.height * 0.4,
+        child: BezierChart(
+          onValueSelected: (value) => print('val = $value'),
+          bezierChartScale: BezierChartScale.CUSTOM,
+          xAxisCustomValues: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          series: const [
+            BezierLine(
+              lineColor: Colors.deepPurpleAccent,
+              lineStrokeWidth: 2,
+              label: "소비자 전력 소비량 평균",
+              data: [
+                DataPoint<double>(value: 120, xAxis: 1),
+                DataPoint<double>(value: 110, xAxis: 2),
+                DataPoint<double>(value: 75, xAxis: 3),
+                DataPoint<double>(value: 70, xAxis: 4),
+                DataPoint<double>(value: 70, xAxis: 5),
+                DataPoint<double>(value: 85, xAxis: 6),
+                DataPoint<double>(value: 100, xAxis: 7),
+                DataPoint<double>(value: 125, xAxis: 8),
+                DataPoint<double>(value: 140, xAxis: 9),
+                DataPoint<double>(value: 80, xAxis: 10),
+                DataPoint<double>(value: 95, xAxis: 11),
+                DataPoint<double>(value: 100, xAxis: 12),
+              ],
+            ),
+            BezierLine(
+              lineColor: Colors.orange,
+              lineStrokeWidth: 2,
+              label: "지역별 전력 소비량 평균",
+              data: [
+                DataPoint<double>(value: 140, xAxis: 1),
+                DataPoint<double>(value: 120, xAxis: 2),
+                DataPoint<double>(value: 70, xAxis: 3),
+                DataPoint<double>(value: 80, xAxis: 4),
+                DataPoint<double>(value: 75, xAxis: 5),
+                DataPoint<double>(value: 80, xAxis: 6),
+                DataPoint<double>(value: 90, xAxis: 7),
+                DataPoint<double>(value: 130, xAxis: 8),
+                DataPoint<double>(value: 150, xAxis: 9),
+                DataPoint<double>(value: 70, xAxis: 10),
+                DataPoint<double>(value: 90, xAxis: 11),
+                DataPoint<double>(value: 105, xAxis: 12),
+              ],
+            ),
+          ],
+          config: BezierChartConfig(
+            showVerticalIndicator: true,
+            verticalIndicatorFixedPosition: false,
+            verticalIndicatorColor: Colors.black26,
+            verticalIndicatorStrokeWidth: 2.0,
+            bubbleIndicatorColor: Colors.black,
+            bubbleIndicatorTitleStyle: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold
+            ),
+            bubbleIndicatorValueStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor: Colors.transparent,
+            displayLinesXAxis: true,
+            contentWidth: _screenSize.width * 0.9,
+            updatePositionOnTap: true,
+          ),
+        ),
       ),
     );
-
-    TextPainter tp = TextPainter(text: sp, textDirection: TextDirection.ltr);
-
-    tp.layout();
-
-    double dx = size.width / 2 - tp.width / 2;
-    double dy = size.height / 2 - tp.height / 2;
-
-    Offset offset = Offset(dx, dy);
-    tp.paint(canvas, offset);
-  }
-
-  double getFontSize(Size size, String text) {
-    return size.width / text.length * textScaleFactor;
-  }
-
-  @override
-  bool shouldRepaint(PieChart old){
-    return old.percentage != percentage;
   }
 }
