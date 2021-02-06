@@ -8,10 +8,16 @@ class MyPowerPageView extends StatelessWidget {
   final num result;
   final String date;
   final List<DocumentSnapshot> documents;
+
   MyPowerPageView(this.date, this.documents, this.result);
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _contatos = new List<Widget>();
+    _contatos.add(DocumentView('전자기기', '시간', '전력 소비량'));
+    _contatos += documents
+        .map((eachDocument) => DocumentView(eachDocument['device'], eachDocument['UsageTime'].toString(), eachDocument["calculate"].toInt().toString() + 'WH')).toList();
+
     final _screenSize = MediaQuery.of(context).size;
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -40,10 +46,10 @@ class MyPowerPageView extends StatelessWidget {
               ),
             ),
             child: new Swiper(
-                controller: new SwiperController(),
-                control: SwiperControl(
-                  color: Colors.black,
-                ),
+                // controller: new SwiperController(),
+                // control: SwiperControl(
+                //   color: Colors.black,
+                // ),
                 itemCount: 200,
                 scale: 0.6,
                 viewportFraction: 0.9,
@@ -53,30 +59,34 @@ class MyPowerPageView extends StatelessWidget {
                     children: <Widget>[
                       new Center(
                         child: Text(
-                          '${_getLastMonth(date)}월보다 이번 달에\n ${(0 <= result) ? '+' + result.toInt().toString() : '-' + result.toInt().toString()} 사용했어요',
+                          '${_getLastMonth(date)}월보다 이번 달에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 26,
+                            fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         heightFactor: _screenSize.height * 0.003,
-
                       ),
                       new Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(25),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(2.0, 4.0),
+                              blurRadius: 5.0,
+                            ),
+                          ],
                         ),
                         height: _screenSize.height * 0.65,
                         width: _screenSize.width * 0.86,
                         child: new ListView(
-                          padding: EdgeInsets.all(30),
+                          padding: EdgeInsets.all(6),
                           scrollDirection: Axis.vertical,
-                          children: documents
-                              .map((eachDocument) => DocumentView(eachDocument))
-                              .toList(),
+                          children: _contatos,
                         ),
                       ),
                     ],

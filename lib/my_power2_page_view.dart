@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'document_view.dart';
+import 'document2_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class MyPower2PageView extends StatelessWidget {
@@ -12,6 +12,11 @@ class MyPower2PageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _contatos = new List<Widget>();
+    _contatos.add(Document2View('전자기기', '전력 소비량', '시간'));
+    _contatos += documents
+        .map((eachDocument) => Document2View(eachDocument['device'], eachDocument["calculate"].toInt().toString() + 'WH', eachDocument['UsageTime'].toString())).toList();
+
     final _screenSize = MediaQuery.of(context).size;
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -42,9 +47,9 @@ class MyPower2PageView extends StatelessWidget {
             ),
           ),
           child: new Swiper(
-              control: SwiperControl(
-                color: Colors.black,
-              ),
+              // control: SwiperControl(
+              //   color: Colors.black,
+              // ),
               itemCount: 200,
               scale: 0.6,
               viewportFraction: 0.9,
@@ -54,7 +59,7 @@ class MyPower2PageView extends StatelessWidget {
                   children: <Widget>[
                     new Center(
                       child: Text(
-                        '${_getCurrentMonth()}월보다 이번 달에\n +${result.toInt()} 사용했어요',
+                        '${_getLastMonth(date)}월보다 이번 달에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
@@ -68,13 +73,20 @@ class MyPower2PageView extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(25),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(2.0, 4.0),
+                            blurRadius: 5.0,
+                          ),
+                        ],
                       ),
                       height: _screenSize.height * 0.65,
                       width: _screenSize.width * 0.86,
                       child: new ListView(
-                        padding: EdgeInsets.all(30),
+                        padding: EdgeInsets.all(6),
                         scrollDirection: Axis.vertical,
-                        children: documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+                        children: _contatos,
                       ),
                     ),
                   ],
@@ -86,9 +98,11 @@ class MyPower2PageView extends StatelessWidget {
       ),
     );
   }
-  int _getCurrentMonth(){
-    var now = DateTime.now();
-    return now.month - 1;
+
+  int _getLastMonth(String date) {
+    int month = int.parse(date.split("-")[1]);
+    if (month == 1) return 12;
+    return month - 1;
   }
 }
 

@@ -2,11 +2,11 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DocumentView extends StatelessWidget {
+class Document2View extends StatelessWidget {
   final String device, usageTime, calculate;
   int count = 0;
 
-  DocumentView(this.device, this.usageTime, this.calculate);
+  Document2View(this.device, this.calculate, this.usageTime);
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class DocumentView extends StatelessWidget {
                 ),
               ),
               Container(
-                width: _screenSize.width * 0.14,
+                width: _screenSize.width * 0.36,
                 child: Text(
-                  usageTime,
+                  calculate,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
@@ -43,9 +43,9 @@ class DocumentView extends StatelessWidget {
                 ),
               ),
               Container(
-                width: _screenSize.width * 0.36,
+                width: _screenSize.width * 0.14,
                 child: Text(
-                  calculate,
+                  usageTime,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
