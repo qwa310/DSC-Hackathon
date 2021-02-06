@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 class CrudPageView extends StatefulWidget {
-  final DocumentSnapshot documentData;
+  final List<DocumentSnapshot> documentData;
   CrudPageView(this.documentData);
 
   @override
@@ -13,13 +13,19 @@ class CrudPageView extends StatefulWidget {
 }
 
 class _CrudPageViewState extends State<CrudPageView> {
-  int _count = 1;
-  String title = '+ 추가 기입';
-
   @override
   Widget build(BuildContext context) {
-    final _screenSize = MediaQuery.of(context).size;
-    List<Widget> _contatos = new List.generate(_count, (int i) => new FormLists());
+    final _screenSize = MediaQuery
+        .of(context)
+        .size;
+    List<Widget> _contatos = widget.documentData
+        .map((eachDocument) => FormLists(eachDocument['device'], eachDocument['UsageTime'].toString())).toList();
+    if (_contatos.length < 10) {
+      for (int i = _contatos.length; i < 10; i++){
+        _contatos.add(FormLists('전자 기기', '사용 시간'));
+      }
+    }
+
     return new Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -39,10 +45,7 @@ class _CrudPageViewState extends State<CrudPageView> {
             height: _screenSize.height,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFFE7F3EB),
-                  Color(0xFFF8F5E1)
-                ],
+                colors: [Color(0xFFE7F3EB), Color(0xFFF8F5E1)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -69,48 +72,31 @@ class _CrudPageViewState extends State<CrudPageView> {
                   height: _screenSize.height * 0.65,
                   width: _screenSize.width * 0.86,
                   child: new ListView(
-                    padding: EdgeInsets.fromLTRB(10,30,0,0),
+                    padding: EdgeInsets.fromLTRB(10, 30, 0, 0),
                     children: _contatos,
+                    // children: widget.documentData
+                    //     .map((eachDocument) => FormLists(eachDocument))
+                    //     .toList(),
                     scrollDirection: Axis.vertical,
-                  ),
-                ),
-                new SizedBox(
-                  height: _screenSize.height * 0.005,
-                ),
-                new FlatButton(
-                  onPressed: _addForm,
-                  child: new Text(title,
-                    style: new TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                    ),
                   ),
                 ),
               ],
             ),
           );
-        }));
+        })
+    );
   }
 
   int _getCurrentMonth(){
     var now = DateTime.now();
     return now.month;
   }
-
-  void _addForm() {
-    setState(() {
-      if(_count < 10) {
-        _count = _count + 1;
-        title = '+ 추가 기입';
-      }
-      if(_count == 10){
-        title = ' ';
-      }
-    });
-  }
 }
 
 class FormLists extends StatefulWidget {
+  final String device, UsageTime;
+  const FormLists(this.device, this.UsageTime);
+
   @override
   State<StatefulWidget> createState() => new SelectItems();
 }
@@ -131,7 +117,7 @@ class SelectItems extends State<FormLists> {
           new DropdownButton(
             value: deviceSelect,
             items: _devicesItems,
-            hint: Text('전자기기 명',
+            hint: Text(widget.device,
               style: TextStyle(
                 color: Colors.black45,
                 fontSize: 17,
@@ -149,7 +135,7 @@ class SelectItems extends State<FormLists> {
           new DropdownButton(
             value: timeSelect,
             items: _timesItems,
-            hint: Text('사용시간',
+            hint: Text(widget.UsageTime,
               style: TextStyle(
                 color: Colors.black45,
                 fontSize: 17,
@@ -168,7 +154,6 @@ class SelectItems extends State<FormLists> {
             icon: const Icon(Icons.save_sharp),
             color: Colors.black,
             onPressed: () {
-              saveMsg("저장되었습니다.");
               savePower(deviceSelect, timeSelect);
             },
           ),
@@ -176,7 +161,7 @@ class SelectItems extends State<FormLists> {
             icon: const Icon(Icons.delete_forever),
             color: Colors.black,
             onPressed: () {
-              deleteMsg();
+              deletePower(widget.device);
             },
           )
         ],
@@ -210,7 +195,7 @@ class SelectItems extends State<FormLists> {
       builder: (BuildContext context){
         return AlertDialog(
             content: SingleChildScrollView(
-              child: Text("삭제 하시겠습니까?"),
+              child: Text("삭제 되었습니다."),
             ),
             actions: <Widget>[
               FlatButton(
@@ -313,27 +298,32 @@ class SelectItems extends State<FormLists> {
   }
 
   void savePower(String device, String time) {
-    String date = _getCurrentDate();
-    firestore
-        .collection('electronics')
-        .where("device", isEqualTo: device)
-        .get()
-        .then((QuerySnapshot ds) {
-      var defaultValue = ds.docs[0]['Wh'];
+    if (device != null && time != null) {
+      String date = _getCurrentDate();
       firestore
-          .collection('user')
-          .doc(auth.currentUser.uid)
-          .collection(_getCurrentYearAndMonth())
-          .doc(device)
-          .set({
-        'device': device,
-        'UsageTime': double.parse(time),
-        'createdDate': date,
-        'modifiedDate': date,
-        'Wh': defaultValue,
-        'calculate': double.parse(time) * double.parse(defaultValue)
+          .collection('electronics')
+          .where("device", isEqualTo: device)
+          .get()
+          .then((QuerySnapshot ds) {
+        var defaultValue = ds.docs[0]['Wh'];
+        firestore
+            .collection('user')
+            .doc(auth.currentUser.uid)
+            .collection(_getCurrentYearAndMonth())
+            .doc(device)
+            .set({
+          'device': device,
+          'UsageTime': double.parse(time),
+          'createdDate': date,
+          'modifiedDate': date,
+          'Wh': defaultValue,
+          'calculate': double.parse(time) * double.parse(defaultValue)
+        }).then((value) {
+          // saveMsg("저장되었습니다.");
+          Navigator.pushReplacementNamed(context, '/crud');
+        });
       });
-    });
+    }
   }
 
   void deletePower(String device) {
@@ -341,6 +331,9 @@ class SelectItems extends State<FormLists> {
         .doc(auth.currentUser.uid)
         .collection(_getCurrentYearAndMonth())
         .doc(device)
-        .delete();
+        .delete().then((value) {
+          saveMsg("삭제되었습니다.");
+          Navigator.pushReplacementNamed(context, '/crud');
+        });
   }
 }
