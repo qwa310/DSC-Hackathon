@@ -82,7 +82,6 @@ class HomePageView extends StatelessWidget {
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        alignment: Alignment.centerRight,
                         child: ButtonTheme(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
@@ -91,21 +90,33 @@ class HomePageView extends StatelessWidget {
                               width: 1.3,
                             ),
                           ),
-                          child: FlatButton(
-                            minWidth: _screenSize.width * 0.015,
-                            height: _screenSize.height * 0.015,
-                            color: Colors.transparent,
-                            child: Text(
-                              '전력 소비량 측정하기',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              IconButton(
+                                  icon: new Icon(
+                                    Icons.calendar_today,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/calendar');
+                                  }),
+                              FlatButton(
+                                minWidth: _screenSize.width * 0.015,
+                                height: _screenSize.height * 0.015,
+                                color: Colors.transparent,
+                                child: Text(
+                                  '전력 소비량 측정하기',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                padding: EdgeInsets.all(6.0),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/crud');
+                                },
                               ),
-                            ),
-                            padding: EdgeInsets.all(6.0),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/crud');
-                            },
+                            ],
                           ),
                         ),
                       ),
