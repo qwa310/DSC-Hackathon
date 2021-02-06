@@ -98,7 +98,8 @@ class HomePageView extends StatelessWidget {
                                     Icons.calendar_today,
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/calendar');
+                                    Navigator.pushNamed(context, '/calendar',
+                                        arguments: {'year': DateFormat('yyyy').format(DateTime.now())});
                                   }),
                               FlatButton(
                                 minWidth: _screenSize.width * 0.015,
@@ -144,7 +145,7 @@ class HomePageView extends StatelessWidget {
                 margin: EdgeInsets.all(10.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/chart',  //calendar -> chart 로 변경
+                    Navigator.pushNamed(context, '/chart',
                         arguments: {'year': DateFormat('yyyy').format(DateTime.now())});
                   },
                   child: Stack(

@@ -10,8 +10,8 @@ import 'home_page.dart';
 import 'chart_page.dart';
 import 'my_power_page.dart';
 import 'my_power2_page.dart';
-import 'my_town.dart';
-import 'graph.dart';
+import 'chart_page.dart';
+// import 'graph.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +34,6 @@ class MainPage extends StatelessWidget {
         '/calendar': (context) => CalendarPage(),
         '/crud': (context) => CrudPage(),
         '/home': (context) => HomePage(),
-        '/my_town': (context) => MyTown(),
         '/chart':(context) => ChartPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
@@ -44,7 +43,7 @@ class MainPage extends StatelessWidget {
         };
         WidgetBuilder builder = routes[settings.name];
         return MaterialPageRoute(builder: (ctx) => builder(ctx));
-      },
+      }, // 이 부분은 언젠가 제가 꼭 고쳐서 pr 보내겠습니다!
       theme: ThemeData(
         fontFamily: 'NanumSquare',
         visualDensity: VisualDensity.adaptivePlatformDensity,

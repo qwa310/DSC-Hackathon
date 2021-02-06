@@ -30,10 +30,7 @@ class _ChartPageState extends State<ChartPage> {
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF5FCCCB),
-              Color(0xFFF3DD6E)
-            ],
+            colors: [Color(0xFFE7F3EB), Color(0xFFF8F5E1)],
             begin: Alignment.topLeft, //컬러 시작점
             end: Alignment.bottomRight, //컬러 끝나는점
           ),
@@ -44,7 +41,7 @@ class _ChartPageState extends State<ChartPage> {
               height: _screenSize.height * 0.2,
               alignment: Alignment.center,
               child: Text(
-                "n월 우리 동네 전력 소비량",
+                "2020년 우리 동네 전력 소비량",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 25,
@@ -56,7 +53,8 @@ class _ChartPageState extends State<ChartPage> {
             Container(
               height: _screenSize.height * 0.3,
               margin: EdgeInsets.all(30),
-              child: Text('지난해 n월 우리 동네보다\n' + 'n(Kw) 사용했어요!',
+              child: Text(
+                '지난해 2월 우리 동네보다\n' + '+3.4(Kw) 사용했어요!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
@@ -79,57 +77,55 @@ class _ChartPageState extends State<ChartPage> {
         child: BezierChart(
           onValueSelected: (value) => print('val = $value'),
           bezierChartScale: BezierChartScale.CUSTOM,
-          xAxisCustomValues: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+
+          xAxisCustomValues: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
           series: const [
             BezierLine(
-              lineColor: Colors.deepPurpleAccent,
+              lineColor: Color(0xFFE7D53A),
               lineStrokeWidth: 2,
               label: "소비자 전력 소비량 평균",
               data: [
-                DataPoint<double>(value: 120, xAxis: 1),
-                DataPoint<double>(value: 110, xAxis: 2),
-                DataPoint<double>(value: 75, xAxis: 3),
-                DataPoint<double>(value: 70, xAxis: 4),
-                DataPoint<double>(value: 70, xAxis: 5),
-                DataPoint<double>(value: 85, xAxis: 6),
-                DataPoint<double>(value: 100, xAxis: 7),
-                DataPoint<double>(value: 125, xAxis: 8),
-                DataPoint<double>(value: 140, xAxis: 9),
-                DataPoint<double>(value: 80, xAxis: 10),
-                DataPoint<double>(value: 95, xAxis: 11),
-                DataPoint<double>(value: 100, xAxis: 12),
+                DataPoint<double>(value: 238, xAxis: 1),
+                DataPoint<double>(value: 242, xAxis: 2),
+                DataPoint<double>(value: 228, xAxis: 3),
+                DataPoint<double>(value: 232, xAxis: 4),
+                DataPoint<double>(value: 215, xAxis: 5),
+                DataPoint<double>(value: 217, xAxis: 6),
+                DataPoint<double>(value: 220, xAxis: 7),
+                DataPoint<double>(value: 268, xAxis: 8),
+                DataPoint<double>(value: 313, xAxis: 9),
+                DataPoint<double>(value: 215, xAxis: 10),
+                DataPoint<double>(value: 222, xAxis: 11),
               ],
             ),
             BezierLine(
-              lineColor: Colors.orange,
+              lineColor: Color(0xFFB8C95C),
               lineStrokeWidth: 2,
               label: "지역별 전력 소비량 평균",
               data: [
-                DataPoint<double>(value: 140, xAxis: 1),
-                DataPoint<double>(value: 120, xAxis: 2),
-                DataPoint<double>(value: 70, xAxis: 3),
-                DataPoint<double>(value: 80, xAxis: 4),
-                DataPoint<double>(value: 75, xAxis: 5),
-                DataPoint<double>(value: 80, xAxis: 6),
-                DataPoint<double>(value: 90, xAxis: 7),
-                DataPoint<double>(value: 130, xAxis: 8),
-                DataPoint<double>(value: 150, xAxis: 9),
-                DataPoint<double>(value: 70, xAxis: 10),
-                DataPoint<double>(value: 90, xAxis: 11),
-                DataPoint<double>(value: 105, xAxis: 12),
+                DataPoint<double>(value: 246, xAxis: 1),
+                DataPoint<double>(value: 245, xAxis: 2),
+                DataPoint<double>(value: 230, xAxis: 3),
+                DataPoint<double>(value: 232, xAxis: 4),
+                DataPoint<double>(value: 218, xAxis: 5),
+                DataPoint<double>(value: 225, xAxis: 6),
+                DataPoint<double>(value: 233, xAxis: 7),
+                DataPoint<double>(value: 280, xAxis: 8),
+                DataPoint<double>(value: 292, xAxis: 9),
+                DataPoint<double>(value: 217, xAxis: 10),
+                DataPoint<double>(value: 221, xAxis: 11),
               ],
             ),
           ],
           config: BezierChartConfig(
+            xLinesColor: Colors.black,
             showVerticalIndicator: true,
             verticalIndicatorFixedPosition: false,
             verticalIndicatorColor: Colors.black26,
             verticalIndicatorStrokeWidth: 2.0,
             bubbleIndicatorColor: Colors.black,
-            bubbleIndicatorTitleStyle: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold
-            ),
+            bubbleIndicatorTitleStyle:
+                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             bubbleIndicatorValueStyle: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,

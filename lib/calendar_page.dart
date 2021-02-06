@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:intl/intl.dart';
-
-
 
 class CalendarPage extends StatefulWidget {
   @override
