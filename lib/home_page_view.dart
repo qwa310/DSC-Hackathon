@@ -133,7 +133,7 @@ class HomePageView extends StatelessWidget {
                 margin: EdgeInsets.all(10.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/calendar',
+                    Navigator.pushNamed(context, '/chart',  //calendar -> chart 로 변경
                         arguments: {'year': DateFormat('yyyy').format(DateTime.now())});
                   },
                   child: Stack(
@@ -154,7 +154,6 @@ class HomePageView extends StatelessWidget {
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),

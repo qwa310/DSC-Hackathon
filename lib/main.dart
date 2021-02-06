@@ -11,6 +11,7 @@ import 'chart_page.dart';
 import 'my_power_page.dart';
 import 'my_power2_page.dart';
 import 'my_town.dart';
+import 'graph.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class MainPage extends StatelessWidget {
         '/crud': (context) => CrudPage(),
         '/home': (context) => HomePage(),
         '/my_town': (context) => MyTown(),
+        '/chart':(context) => ChartPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         var routes = <String, WidgetBuilder>{
