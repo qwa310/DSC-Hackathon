@@ -41,7 +41,7 @@
 ### - LOGIN : 이메일, 비밀번호
 ### - SIGN UP : 이메일, 비밀번호, 이름, 거주지, 계약형태
 
-[1](https://user-images.githubusercontent.com/46439700/107112822-e1a87580-689d-11eb-8c67-599eac4d209d.JPG)
+![1](https://user-images.githubusercontent.com/46439700/107112822-e1a87580-689d-11eb-8c67-599eac4d209d.JPG)
 ----------------------------------------------
 
 ### - HOME (Navigator) : 대략 6개 화면으로 이동하기 위한 메인 화면
