@@ -77,6 +77,7 @@ class _JoinPageState extends State<JoinPage> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 35,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -102,7 +103,7 @@ class _JoinPageState extends State<JoinPage> {
                                 ),
                               ),
                               hintText: '이메일 입력',
-                              hintStyle: TextStyle(color:Colors.white),
+                              hintStyle: TextStyle(color:Colors.black38),
                             ),
                             keyboardType: TextInputType.text,
                             controller: _emailController,
@@ -138,7 +139,7 @@ class _JoinPageState extends State<JoinPage> {
                                 ),
                               ),
                               hintText: '비밀번호 입력',
-                              hintStyle: TextStyle(color:Colors.white),
+                              hintStyle: TextStyle(color:Colors.black38),
                             ),
                             keyboardType: TextInputType.text,
                             controller: _pwController,
@@ -174,7 +175,7 @@ class _JoinPageState extends State<JoinPage> {
                                 ),
                               ),
                               hintText: '비밀번호 확인',
-                              hintStyle: TextStyle(color:Colors.white),
+                              hintStyle: TextStyle(color:Colors.black38),
                             ),
                             keyboardType: TextInputType.text,
                             // controller: _pwController,
@@ -208,7 +209,7 @@ class _JoinPageState extends State<JoinPage> {
                                 ),
                               ),
                               hintText: '이름 입력',
-                              hintStyle: TextStyle(color:Colors.white),
+                              hintStyle: TextStyle(color:Colors.black38),
                             ),
                             keyboardType: TextInputType.text,
                             controller: _nameController,
@@ -230,6 +231,7 @@ class _JoinPageState extends State<JoinPage> {
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.white),
                               borderRadius: BorderRadius.circular(50),
+
                             ),
                             child: DropdownButton(
                               underline: Container(color: Colors.transparent),
@@ -238,7 +240,7 @@ class _JoinPageState extends State<JoinPage> {
                               isExpanded: true,
                               hint : Text('거주지 선택',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color:Colors.black38,
                                 ),),
                               onChanged: (newValue){
                                 setState((){
@@ -280,7 +282,7 @@ class _JoinPageState extends State<JoinPage> {
                               isExpanded: true,
                               hint : Text('전기요금 계약방식 선택',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color:Colors.black38,
                                 ),),
                               onChanged: (newValue){
                                 setState((){
@@ -309,16 +311,16 @@ class _JoinPageState extends State<JoinPage> {
                             margin: const EdgeInsets.fromLTRB(0,50,0,0),
                             alignment: Alignment.center,
                             child : ButtonTheme(
-                              minWidth: _screenSize.width * 0.85,
-                              height: _screenSize.height * 0.05,
+                              minWidth: _screenSize.width * 0.90,
+                              height: _screenSize.height * 0.065,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                               child: RaisedButton(
                                 color: Colors.white,
                                 child: Text(
                                   '당신도 이제 saver!',
                                   style: TextStyle(
-                                    color: Color(0xFF5FCCCB),
-                                    fontSize: 25,
+                                    color: Color(0xAA000000),
+                                    fontSize: 23,
                                   ),
                                 ),
                                 onPressed: () {
@@ -372,7 +374,7 @@ class _JoinPageState extends State<JoinPage> {
               'email': user.email,
               'region': regionSelect,
               'contract': contractSelect,
-            }).then((value) => Navigator.pushNamed(context, '/navi'));
+            }).then((value) => Navigator.pushNamed(context, '/home'));
           });
       await FirebaseAuth.instance.signInAnonymously();
       return 1;

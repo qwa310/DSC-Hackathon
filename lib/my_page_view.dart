@@ -66,11 +66,11 @@ class MyPageView extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'My Page',
+                      'My PAGE',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 33,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        // fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -82,8 +82,8 @@ class MyPageView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            width: _screenSize.height * 0.23,
-                            height: _screenSize.height * 0.23,
+                            width: _screenSize.height * 0.20,
+                            height: _screenSize.height * 0.20,
                             child: Image.asset(
                               'images/people.png',
                             ),
@@ -92,12 +92,13 @@ class MyPageView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Center(
+                              Container(
                                 child: Text(
                                   '계정 정보',
+                                  textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 22,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -105,13 +106,13 @@ class MyPageView extends StatelessWidget {
                               SizedBox(
                                 height: _screenSize.height * 0.015,
                               ),
-                              Center(
+                              Container(
                                 child: Text(
                                   documentData.data()['name'] + ' Saver 님',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ),
@@ -123,7 +124,7 @@ class MyPageView extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                 ),
                               ),
                               SizedBox(
@@ -134,7 +135,7 @@ class MyPageView extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                 ),
                               ),
                             ],
@@ -143,8 +144,8 @@ class MyPageView extends StatelessWidget {
                       ),
                       SizedBox(
                         child: Container(
-                          color: Colors.black,
-                          height: _screenSize.height * 0.0005,
+                          color: Color(0xFFADADAD),
+                          height: _screenSize.height * 0.001,
                         ),
                       ),
                       Column(
@@ -168,8 +169,8 @@ class MyPageView extends StatelessWidget {
                           ),
                           SizedBox(
                             child: Container(
-                              color: Colors.black,
-                              height: _screenSize.height * 0.0005,
+                              color: Color(0xFFADADAD),
+                              height: _screenSize.height * 0.001,
                             ),
                           ),
                           Container(
@@ -177,7 +178,7 @@ class MyPageView extends StatelessWidget {
                               minWidth: _screenSize.width,
                               height: _screenSize.height * 0.1,
                               onPressed: () {
-                                infoDialog('제작자 정보', 'Team. PowerRangers', context);
+                                infoDialog('제작자 정보', '\n⚡Team. PowerRangers⚡\n(DSC HACKATHON)\n\nplan by 이여름\ndesign by 김민서\nFE by 박정민\nBE by 박주은', context);
                               },
                               child: Text(
                                 '제작자 정보', //온클릭
