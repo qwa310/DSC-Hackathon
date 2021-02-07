@@ -14,7 +14,7 @@ class MyPowerPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> _contatos = new List<Widget>();
-    _contatos.add(DocumentView('전자기기', '시간', '전력 소비량'));
+    _contatos.add(DocumentView('전자기기', '시간', '전력 소비량 순'));
     _contatos += documents
         .map((eachDocument) => DocumentView(eachDocument['device'], eachDocument['UsageTime'].toString(), eachDocument["calculate"].toInt().toString() + 'WH')).toList();
 
@@ -59,7 +59,7 @@ class MyPowerPageView extends StatelessWidget {
                     children: <Widget>[
                       new Center(
                         child: Text(
-                          '${_getLastMonth(date)}월보다 이번 달에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
+                          '${_getLastMonth(date)}월보다 ${_getMonth(date)}월에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
@@ -102,5 +102,10 @@ class MyPowerPageView extends StatelessWidget {
     int month = int.parse(date.split("-")[1]);
     if (month == 1) return 12;
     return month - 1;
+  }
+
+  int _getMonth(String date) {
+    int month = int.parse(date.split("-")[1]);
+    return month;
   }
 }
