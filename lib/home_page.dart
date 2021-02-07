@@ -15,6 +15,7 @@ class DateInfo {
   }
 }
 
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   num totalCurrent = 0;
 

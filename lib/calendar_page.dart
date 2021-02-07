@@ -29,7 +29,7 @@ class _CalendarPageState extends State<CalendarPage>{
         padding: const EdgeInsets.all(30.0),
           child: new Swiper(
               control: SwiperControl(
-                color: Colors.black,
+                color: Colors.black38,
               ),
               itemCount: 200,
               scale: 0.6,
@@ -48,10 +48,10 @@ class _CalendarPageState extends State<CalendarPage>{
                         ),
                       ),
                     ),
-                    monthBtn(left: 1, middle: 2, right: 3, year: args['year']),
-                    monthBtn(left: 4, middle: 5, right: 6, year: args['year']),
-                    monthBtn(left: 7, middle: 8, right: 9, year: args['year']),
-                    monthBtn(left: 10, middle: 11, right: 12, year: args['year']),
+                    monthBtn(left: 1, middle: 2, right: 3, year: NextYear(args['year'], index)),
+                    monthBtn(left: 4, middle: 5, right: 6, year: NextYear(args['year'], index)),
+                    monthBtn(left: 7, middle: 8, right: 9, year:  NextYear(args['year'], index)),
+                    monthBtn(left: 10, middle: 11, right: 12, year: NextYear(args['year'], index)),
                   ],
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 );
