@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'my_power2_page_view.dart';
+import '../screens/calculate_result/power_calculated_second_result_screen.dart';
 
 class DateInfo {
   String currentDate, currentMonth, currentYear;
@@ -35,19 +35,21 @@ class DateInfo {
 }
 
 // ignore: must_be_immutable
-class MyPower2Page extends StatefulWidget {
+class PowerCalculatedSecondResultApi extends StatefulWidget {
   final String date;
 
-  MyPower2Page(this.date);
+  PowerCalculatedSecondResultApi(this.date);
 
   num totalLast = 0;
   num totalCurrent = 0;
 
   @override
-  _MyPower2PageState createState() => _MyPower2PageState();
+  _PowerCalculatedSecondResultApiState createState() =>
+      _PowerCalculatedSecondResultApiState();
 }
 
-class _MyPower2PageState extends State<MyPower2Page> {
+class _PowerCalculatedSecondResultApiState
+    extends State<PowerCalculatedSecondResultApi> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   Stream<QuerySnapshot> currentStream;
@@ -109,11 +111,13 @@ class _MyPower2PageState extends State<MyPower2Page> {
               (widget.totalLast *
                   num.parse(dateInfo.currentDate) /
                   num.parse(dateInfo.lastMonthOfDay));
-          return MyPower2PageView(widget.date, snapshot.data.docs, result);
+          return PowerCalculatedSecondResultScreen(
+              widget.date, snapshot.data.docs, result);
         } else {
           // 과거의 달을 호출한 경우 -> 계산방식: 과거의 달 사용량 - 과거의 달의 직 전달 사용량
           var result = widget.totalCurrent - widget.totalLast;
-          return MyPower2PageView(widget.date, snapshot.data.docs, result);
+          return PowerCalculatedSecondResultScreen(
+              widget.date, snapshot.data.docs, result);
         }
       },
     );

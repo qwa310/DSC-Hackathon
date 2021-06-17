@@ -1,50 +1,32 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'login_page.dart';
-import 'join_page.dart';
-import 'my_page.dart';
-import 'welcome_page.dart';
-import 'calendar_page.dart';
-import 'crud_page.dart';
-import 'home_page.dart';
-import 'chart_page.dart';
-import 'my_power_page.dart';
-import 'my_power2_page.dart';
-import 'my_town.dart';
-import 'graph.dart';
+import 'api/power_calculated_result_api.dart';
+import 'api/power_calculated_second_result_api.dart';
+import 'routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MainPage());
+  runApp(MyApp());
 }
 
-class MainPage extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Main Page',
       debugShowCheckedModeBanner: false,
       initialRoute: '/welcome',
-      routes: {
-        '/welcome': (context) => Welcome(), //completed
-        '/login': (context) => LoginPage(), //completed
-        '/my_page': (context) => MyPage(), //completed
-        '/join': (context) => JoinPage(),
-        '/calendar': (context) => CalendarPage(),
-        '/crud': (context) => CrudPage(),
-        '/home': (context) => HomePage(),
-        '/my_town': (context) => MyTown(),
-        '/chart':(context) => ChartPage(),
-      },
+      routes: kRoutes,
       onGenerateRoute: (RouteSettings settings) {
         var routes = <String, WidgetBuilder>{
-          'my_power': (context) => MyPowerPage(settings.arguments),
-          'my_power2': (context) => MyPower2Page(settings.arguments),
+          'power_result': (context) =>
+              PowerCalculatedResultApi(settings.arguments),
+          'power2_result': (context) =>
+              PowerCalculatedSecondResultApi(settings.arguments),
         };
         WidgetBuilder builder = routes[settings.name];
         return MaterialPageRoute(builder: (ctx) => builder(ctx));
-      },
+      }, // 이 부분은 언젠가 제가 꼭 고쳐서 pr 보내겠습니다!
       theme: ThemeData(
         fontFamily: 'NanumSquare',
         visualDensity: VisualDensity.adaptivePlatformDensity,

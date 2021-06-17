@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'home_page_view.dart';
+import '../screens/main/main_screen.dart';
 import 'package:intl/intl.dart';
 
 class DateInfo {
@@ -15,14 +15,15 @@ class DateInfo {
   }
 }
 
-class HomePage extends StatefulWidget {
+// ignore: must_be_immutable
+class MainApi extends StatefulWidget {
   num totalCurrent = 0;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MainApiState createState() => _MainApiState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainApiState extends State<MainApi> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   Stream<QuerySnapshot> currentStream;
@@ -59,20 +60,18 @@ class _HomePageState extends State<HomePage> {
 
   initSecondState() {
     // [2-1] view에 줄 사용자 한 명의 정보 받기
-    Stream<DocumentSnapshot> currentStream = firestore
-        .collection("user")
-        .doc(auth.currentUser.uid)
-        .snapshots();
+    Stream<DocumentSnapshot> currentStream =
+        firestore.collection("user").doc(auth.currentUser.uid).snapshots();
     // [2-2] 현재 총 소비 전력 또는 전기세와 유저 정보 모두 view 에 보내기
     return StreamBuilder(
-        stream: currentStream,
-        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return CircularProgressIndicator();
-          }
-          num result = widget.totalCurrent;
-          return HomePageView(snapshot.data, result);
-        },
+      stream: currentStream,
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (!snapshot.hasData) {
+          return CircularProgressIndicator();
+        }
+        num result = widget.totalCurrent;
+        return MainScreen(snapshot.data, result);
+      },
     );
   }
 }
