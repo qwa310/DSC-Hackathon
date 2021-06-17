@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../constants.dart';
 
-class Welcome extends StatelessWidget {
-  Welcome({
+class WelcomeScreen extends StatelessWidget {
+  WelcomeScreen({
     Key key,
   }) : super(key: key);
 
@@ -11,7 +12,7 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     _waitTwoSeconds().then((value) {
       if (FirebaseAuth.instance.currentUser != null) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/main');
       } else {
         Navigator.pushReplacementNamed(context, '/login');
       }
@@ -23,23 +24,7 @@ class Welcome extends StatelessWidget {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF5FCCCB),
-                  Color(0xFFF3DD6E)
-                ],
-                begin: Alignment.topLeft, //컬러 시작점
-                end: Alignment.bottomRight, //컬러 끝나는점
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0x4d000000),
-                  offset: Offset(0, 3),
-                  blurRadius: 6,
-                ),
-              ],
-            ),
+            decoration: kWelcomeDecoration,
           ),
           Center(
             child: Container(
@@ -47,10 +32,9 @@ class Welcome extends StatelessWidget {
               height: 172,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: const AssetImage('images/logo.png'),
-                    fit: BoxFit.fill,
-                  )
-              ),
+                image: const AssetImage('images/logo.png'),
+                fit: BoxFit.fill,
+              )),
             ),
           ),
         ],

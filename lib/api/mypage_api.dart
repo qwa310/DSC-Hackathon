@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'my_page_view.dart';
+import '../screens/mypage/my_page_screen.dart';
 
-class MyPage extends StatefulWidget {
+class MyPageApi extends StatefulWidget {
   @override
-  _MyPageState createState() => _MyPageState();
+  _MyPageApiState createState() => _MyPageApiState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _MyPageApiState extends State<MyPageApi> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   Stream<DocumentSnapshot> currentStream;
@@ -27,7 +27,8 @@ class _MyPageState extends State<MyPage> {
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (!snapshot.hasData) {
             return CircularProgressIndicator();
-          } return MyPageView(snapshot.data);
+          }
+          return MyPageScreen(snapshot.data);
         },
       ),
     );

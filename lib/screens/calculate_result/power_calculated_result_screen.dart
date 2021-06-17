@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'document_view.dart';
+import 'document_screen.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import '../../constants.dart';
 
-class MyPowerPageView extends StatelessWidget {
+class PowerCalculatedResultScreen extends StatelessWidget {
   final num result;
   final String date;
   final List<DocumentSnapshot> documents;
 
-  MyPowerPageView(this.date, this.documents, this.result);
+  PowerCalculatedResultScreen(this.date, this.documents, this.result);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> _contatos = new List<Widget>();
-    _contatos.add(DocumentView('전자기기', '시간', '전력 소비량 순'));
+    _contatos.add(DocumentScreen('전자기기', '시간', '전력 소비량 순'));
     _contatos += documents
-        .map((eachDocument) => DocumentView(eachDocument['device'], eachDocument['UsageTime'].toString(), eachDocument["calculate"].toInt().toString() + 'WH')).toList();
+        .map((eachDocument) => DocumentScreen(
+            eachDocument['device'],
+            eachDocument['UsageTime'].toString(),
+            eachDocument["calculate"].toInt().toString() + 'WH'))
+        .toList();
 
     final _screenSize = MediaQuery.of(context).size;
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -38,19 +43,13 @@ class MyPowerPageView extends StatelessWidget {
           return new Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFFE7F3EB), Color(0xFFF8F5E1)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+            decoration: kRegularDecoration,
             child: new Swiper(
                 // controller: new SwiperController(),
                 // control: SwiperControl(
                 //   color: Colors.black,
                 // ),
-                itemCount: 200,
+                itemCount: 12,
                 scale: 0.6,
                 viewportFraction: 0.9,
                 itemBuilder: (BuildContext context, int index) {
@@ -59,7 +58,7 @@ class MyPowerPageView extends StatelessWidget {
                     children: <Widget>[
                       new Center(
                         child: Text(
-                          '${_getLastMonth(date)}월보다 ${_getMonth(date)}월에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
+                          '${_getLastMonth(index, date)}월보다 ${_getMonth(index, date)}월에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
@@ -98,14 +97,25 @@ class MyPowerPageView extends StatelessWidget {
     );
   }
 
-  int _getLastMonth(String date) {
-    int month = int.parse(date.split("-")[1]);
-    if (month == 1) return 12;
-    return month - 1;
+  int _getLastMonth(int index, String date) {
+    if (_getMonth(index, date) == 1) {
+      return 12;
+    }
+    return _getMonth(index, date) - 1;
   }
 
-  int _getMonth(String date) {
-    int month = int.parse(date.split("-")[1]);
-    return month;
+  int _getMonth(int index, String date) {
+    if (index == 0) {
+      int month = int.parse(date.split("-")[1]);
+
+      return month;
+    } else if (index > 0) {
+      int month = int.parse(date.split("-")[1]) + index;
+
+      if (month > 12) {
+        return month - 12;
+      }
+      return month;
+    }
   }
 }

@@ -1,12 +1,13 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../constants.dart';
 
-class Document2View extends StatelessWidget {
+// ignore: must_be_immutable
+class DocumentSecondScreen extends StatelessWidget {
   final String device, usageTime, calculate;
   int count = 0;
 
-  Document2View(this.device, this.calculate, this.usageTime);
+  DocumentSecondScreen(this.device, this.calculate, this.usageTime);
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,7 @@ class Document2View extends StatelessWidget {
                 child: Text(
                   device,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: kSmallTextStyle,
                 ),
               ),
               Container(
@@ -36,10 +34,7 @@ class Document2View extends StatelessWidget {
                 child: Text(
                   calculate,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: kSmallTextStyle,
                 ),
               ),
               Container(
@@ -47,10 +42,7 @@ class Document2View extends StatelessWidget {
                 child: Text(
                   usageTime,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: kSmallTextStyle,
                 ),
               ),
             ],

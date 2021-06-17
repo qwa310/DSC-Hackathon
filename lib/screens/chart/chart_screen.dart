@@ -1,17 +1,19 @@
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:flutter/material.dart';
+import '../../constants.dart';
 
-class ChartPage extends StatefulWidget {
-  ChartPage({Key key}) : super(key: key);
+class ChartScreen extends StatefulWidget {
+  ChartScreen({Key key}) : super(key: key);
 
   @override
-  _ChartPageState createState() => _ChartPageState();
+  _ChartScreenState createState() => _ChartScreenState();
 }
 
-class _ChartPageState extends State<ChartPage> {
+class _ChartScreenState extends State<ChartScreen> {
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
+    Map args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -28,39 +30,22 @@ class _ChartPageState extends State<ChartPage> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFE7F3EB), Color(0xFFF8F5E1)],
-            begin: Alignment.topLeft, //컬러 시작점
-            end: Alignment.bottomRight, //컬러 끝나는점
-          ),
-        ),
+        decoration: kReverseDecoration,
         child: Column(
           children: <Widget>[
             Container(
-              height: _screenSize.height * 0.2,
+              margin: EdgeInsets.only(top: _screenSize.height * 0.15),
               alignment: Alignment.center,
               child: Text(
-                "2020년 우리 동네 전력 소비량",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
+                args['year'] + "년 우리 동네 전력 소비량",
+                style: kRegularTextStyle,
               ),
             ),
-            ChartDisplay(context),
+            chartDisplay(context),
             Container(
-              height: _screenSize.height * 0.3,
-              margin: EdgeInsets.all(30),
-              child: Text(
-                '지난해 2월 우리 동네보다\n' + '+3.4(Kw) 사용했어요!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 28,
-                ),
-              ),
+              margin: EdgeInsets.only(top: 20),
+              child: Text('지난해 2월 우리 동네보다\n' + '+3.4(Kw) 사용했어요!',
+                  textAlign: TextAlign.center, style: kRegularTextStyle),
             ),
           ],
         ),
@@ -68,16 +53,15 @@ class _ChartPageState extends State<ChartPage> {
     );
   }
 
-  Widget ChartDisplay(BuildContext context) {
+  Widget chartDisplay(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     return Center(
       child: Container(
         color: Colors.transparent,
-        height: _screenSize.height * 0.4,
+        height: _screenSize.height * 0.5,
         child: BezierChart(
           onValueSelected: (value) => print('val = $value'),
           bezierChartScale: BezierChartScale.CUSTOM,
-
           xAxisCustomValues: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
           series: const [
             BezierLine(

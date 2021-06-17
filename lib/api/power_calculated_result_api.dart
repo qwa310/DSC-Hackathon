@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'my_power_page_view.dart';
+import '../screens/calculate_result/power_calculated_result_screen.dart';
 
 class DateInfo {
   String currentDate, currentMonth, currentYear;
@@ -37,19 +37,20 @@ class DateInfo {
 }
 
 // ignore: must_be_immutable
-class MyPowerPage extends StatefulWidget {
+class PowerCalculatedResultApi extends StatefulWidget {
   final String date;
 
-  MyPowerPage(this.date);
+  PowerCalculatedResultApi(this.date);
 
   num totalLast = 0;
   num totalCurrent = 0;
 
   @override
-  _MyPowerPageState createState() => _MyPowerPageState();
+  _PowerCalculatedResultApiState createState() =>
+      _PowerCalculatedResultApiState();
 }
 
-class _MyPowerPageState extends State<MyPowerPage> {
+class _PowerCalculatedResultApiState extends State<PowerCalculatedResultApi> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   Stream<QuerySnapshot> currentStream;
@@ -92,11 +93,13 @@ class _MyPowerPageState extends State<MyPowerPage> {
               (widget.totalLast *
                   num.parse(dateInfo.currentDate) /
                   num.parse(dateInfo.lastMonthOfDay));
-          return MyPowerPageView(widget.date, snapshot.data.docs, result);
+          return PowerCalculatedResultScreen(
+              widget.date, snapshot.data.docs, result);
         } else {
           // 과거의 달을 호출한 경우 -> 계산방식: 과거의 달 사용량 - 과거의 달의 직 전달 사용량
           var result = widget.totalCurrent - widget.totalLast;
-          return MyPowerPageView(widget.date, snapshot.data.docs, result);
+          return PowerCalculatedResultScreen(
+              widget.date, snapshot.data.docs, result);
         }
       },
     );
