@@ -74,6 +74,14 @@ const kReverseDecoration = BoxDecoration(
   ),
 );
 
+const kLoginDecoration = BoxDecoration(
+  gradient: LinearGradient(
+    colors: [Color(0xFF5FCCCB), Color(0xFFF3DD6E)],
+    begin: Alignment.topLeft, //컬러 시작점
+    end: Alignment.bottomRight, //컬러 끝나는점
+  ),
+);
+
 const kWelcomeDecoration = BoxDecoration(
   gradient: LinearGradient(
     colors: [firstmainColor, secondmainColor],

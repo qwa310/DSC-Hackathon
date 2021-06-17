@@ -49,7 +49,7 @@ class PowerCalculatedResultScreen extends StatelessWidget {
                 // control: SwiperControl(
                 //   color: Colors.black,
                 // ),
-                itemCount: 200,
+                itemCount: 12,
                 scale: 0.6,
                 viewportFraction: 0.9,
                 itemBuilder: (BuildContext context, int index) {
@@ -58,7 +58,7 @@ class PowerCalculatedResultScreen extends StatelessWidget {
                     children: <Widget>[
                       new Center(
                         child: Text(
-                          '지난 달보다 ${_getMonth(index, date)}월에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
+                          '${_getLastMonth(index, date)}월보다 ${_getMonth(index, date)}월에\n⚡ ${(0 <= result) ? '+' + result.toInt().toString() : result.toInt().toString()}WH ⚡\n사용했어요!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
@@ -97,19 +97,25 @@ class PowerCalculatedResultScreen extends StatelessWidget {
     );
   }
 
+  int _getLastMonth(int index, String date) {
+    if (_getMonth(index, date) == 1) {
+      return 12;
+    }
+    return _getMonth(index, date) - 1;
+  }
+
   int _getMonth(int index, String date) {
     if (index == 0) {
       int month = int.parse(date.split("-")[1]);
-      if (month == 12) {}
+
       return month;
     } else if (index > 0) {
       int month = int.parse(date.split("-")[1]) + index;
-      return month;
-    } else {
-      if (index == 0) {
-        int month = int.parse(date.split("-")[1]) - index;
-        return month;
+
+      if (month > 12) {
+        return month - 12;
       }
+      return month;
     }
   }
 }

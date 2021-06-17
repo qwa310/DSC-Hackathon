@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
                 width: double.infinity,
                 height: double.infinity,
-                decoration: kReverseDecoration,
+                decoration: kLoginDecoration,
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
                     child: ListView(children: <Widget>[
